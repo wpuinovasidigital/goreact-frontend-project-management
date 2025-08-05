@@ -34,7 +34,7 @@ const Table = ({ columns, data }) => {
             >
               {columns.map((column) => (
                 <TableCell key={column.id} align={column.align || 'left'}>
-                  {column.render ? column.render(row) : data[column.id]}
+                  {column.render ? column.render(row) : row[column.id]}
                 </TableCell>
               ))}
             </TableRow>
