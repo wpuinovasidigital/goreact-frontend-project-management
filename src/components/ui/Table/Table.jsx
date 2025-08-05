@@ -8,6 +8,7 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
+import PropTypes from 'prop-types';
 
 const Table = ({ columns, data }) => {
   if (!columns || !data || data.length === 0) {
@@ -44,5 +45,15 @@ const Table = ({ columns, data }) => {
     </TableContainer>
   );
 };
+
+Table.propTypes = {
+    columns: PropTypes.array(PropTypes.object({
+        id: PropTypes.any(),
+        label: PropTypes.string(),
+        align: PropTypes.string(),
+        render: PropTypes.func,
+    })),
+    data: PropTypes.array(),
+}
 
 export default Table;
