@@ -1,13 +1,11 @@
-import { ThemeProvider, CssBaseline, createTheme, Button } from "@mui/material"
-import React from "react";
+import { Button, createTheme, CssBaseline, ThemeProvider } from '@mui/material';
+import React from 'react';
 
 const theme = createTheme({
   typography: {
-            fontFamily: ["Roboto", "sans-serif"].join(","),
+    fontFamily: ['Roboto', 'sans-serif'].join(','),
   },
 });
-
-console.log("Theme created:", theme);
 
 const Home = () => {
   return (
