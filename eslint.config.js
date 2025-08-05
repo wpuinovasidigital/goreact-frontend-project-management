@@ -50,6 +50,7 @@ export default defineConfig([
       'react-refresh/only-export-components': 'warn',
       'react/react-in-jsx-scope': 'off', // Not needed with React 17+
       'react/self-closing-comp': 'warn',
+      'react/prop-types': 'off',
       'no-console': 'warn', // Warn about console statements
       'no-unused-vars': ['error', { argsIgnorePattern: '^_', args: 'none' }],
       'import/order': [
