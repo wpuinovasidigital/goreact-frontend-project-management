@@ -1,7 +1,11 @@
-import { Box, createTheme, CssBaseline, ThemeProvider, Typography } from '@mui/material';
 import {
-  createBrowserRouter, Link, RouterProvider
-} from 'react-router';
+  Box,
+  createTheme,
+  CssBaseline,
+  ThemeProvider,
+  Typography,
+} from '@mui/material';
+import { createBrowserRouter, Link, RouterProvider } from 'react-router';
 
 const theme = createTheme({
   typography: {
@@ -11,29 +15,24 @@ const theme = createTheme({
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: (
       <Box>
-          <Typography variant='h1'>Home</Typography>
-          <Link to={"/login"}>
-            Login
-          </Link>
-        </Box>
-    )
+        <Typography variant="h1">Home</Typography>
+        <Link to={'/login'}>Login</Link>
+      </Box>
+    ),
   },
   {
-    path: "/login",
+    path: '/login',
     element: (
       <Box>
-          <Typography variant='h1'>Login</Typography>
-          <Link to={"/"}>
-            Kembali ke Home
-          </Link>
-        </Box>
-    )
-  }
+        <Typography variant="h1">Login</Typography>
+        <Link to={'/'}>Kembali ke Home</Link>
+      </Box>
+    ),
+  },
 ]);
-
 
 const App = () => {
   return (
