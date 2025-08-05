@@ -7,6 +7,7 @@ import {
 } from '@mui/material';
 import { createBrowserRouter, Link, RouterProvider } from 'react-router';
 import Table from './components/ui/Table';
+import Pagination from './components/ui/Pagination';
 
 const theme = createTheme({
   typography: {
@@ -45,6 +46,9 @@ const router = createBrowserRouter([
             status: 'Selesai'
           },
         ]} />
+        <Pagination count={10} onChange={(event, page) => {
+          console.log("page:", page);
+        }} />
       </Box>
     ),
   },
