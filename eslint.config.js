@@ -61,6 +61,15 @@ export default defineConfig([
           'warnOnUnassignedImports': true,
         }
       ],
+      'sort-imports': [
+        'warn',
+        {
+          'ignoreCase': true,
+          'ignoreDeclarationSort': true,
+          'ignoreMemberSort': false,
+          'memberSyntaxSortOrder': ['none', 'all', 'multiple', 'single'],
+        },
+      ],
     },
   },
   prettierConfig,
