@@ -29,10 +29,10 @@ const DatePicker = ({
               onChange={onChange}
               slotProps={{
                 textField: {
-                    fullWidth: true,
-                    helperText,
-                    onBlur
-                }
+                  fullWidth: true,
+                  helperText,
+                  onBlur,
+                },
               }}
             />
           </Box>
