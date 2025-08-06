@@ -1,16 +1,16 @@
 import { Paper, Stack } from '@mui/material';
+import dayjs from 'dayjs';
 import { useForm } from 'react-hook-form';
 
 import DatePicker from '../../../ui/Forms/DatePicker';
 import Select from '../../../ui/Forms/Select';
 import TextField from '../../../ui/Forms/TextField';
-import dayjs from 'dayjs';
 
 const Login = () => {
   const { control, watch } = useForm({
     defaultValues: {
-      filterDate: dayjs()
-    }
+      filterDate: dayjs(),
+    },
   });
 
   const username = watch('username');
