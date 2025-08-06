@@ -2,6 +2,7 @@ import { Paper, Stack } from '@mui/material';
 import { useForm } from 'react-hook-form';
 
 import Select from '../../../ui/Forms/Select';
+import TextField from '../../../ui/Forms/TextField/TextField';
 
 const Login = () => {
   const { control } = useForm();
@@ -19,8 +20,9 @@ const Login = () => {
           padding: 2,
         }}
       >
+        <TextField name="username" control={control} label={"Username"} />
         <Select
-          name={'kategori'}
+          name={'category'}
           control={control}
           label={'Pilih Kategori'}
           options={[
