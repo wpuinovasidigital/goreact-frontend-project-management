@@ -16,7 +16,7 @@ const Sidebar = () => {
         borderRight: '1px solid #ccc',
         zIndex: 1000,
         paddingTop: '4rem', // Adjust for fixed navbar height
-        background: "#ffffff"
+        background: '#ffffff',
       }}
     >
       <SidebarMenu />
