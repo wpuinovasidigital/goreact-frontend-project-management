@@ -40,9 +40,10 @@ const SidebarLayout = ({ children, pageTitle = '', breadcrumbs = [] }) => {
       <Box
         component={'main'}
         sx={{
-          marginLeft: 28,
+          marginLeft: 30,
           marginTop: '4rem',
-          padding: 3,
+          paddingTop: 3,
+          paddingRight: 3,
           flexGrow: 1,
           flexShrink: 0,
           position: 'relative',

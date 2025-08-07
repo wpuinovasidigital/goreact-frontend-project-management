@@ -18,7 +18,7 @@ const Navbar = () => {
         zIndex: 1100,
       }}
     >
-      <Stack justifyContent={'center'} alignItems={'flex-end'}>
+      <Stack justifyContent={'center'} alignItems={'flex-end'} paddingX={1}>
         <Dropdown
           icon={<AccountCircle />}
           options={[
