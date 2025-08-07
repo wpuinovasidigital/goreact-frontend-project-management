@@ -5,14 +5,10 @@ import SidebarLayout from '@/components/layouts/SidebarLayout';
 const DetailProject = () => {
   return (
     <SidebarLayout
-      pageTitle="Detail Proyek"
+      pageTitle="Daftar Proyek"
       breadcrumbs={[
         {
           label: 'Daftar Proyek',
-          href: '/projects',
-        },
-        {
-          label: 'Agency Software Engineering',
         },
       ]}
     >
@@ -22,7 +18,7 @@ const DetailProject = () => {
           background: colors.lightBlue[100],
         }}
       >
-        <Typography>Menampilkan detail proyek di sini</Typography>
+        <Typography>Menampilkan daftar proyek di sini</Typography>
       </Paper>
     </SidebarLayout>
   );

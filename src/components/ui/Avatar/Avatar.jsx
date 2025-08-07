@@ -23,16 +23,18 @@ function stringAvatar(name) {
   const initialName = name
     .split(' ')
     .map((n) => n[0])
-    .join('');
+    .join('')
+    .trim();
 
   const displayName =
     initialName.length >= 2 ? initialName.substring(0, 2) : initialName;
+
   return {
     sx: {
       bgcolor: stringToColor(name),
       cursor: 'pointer',
     },
-    children: `${displayName}`,
+    children: displayName,
   };
 }
 
@@ -52,8 +54,8 @@ const Avatar = ({ text, onClick }) => {
         onMouseLeave={handlePopoverClose}
         onClick={onClick}
       />
-
       <Popover
+        id="menu-popover"
         sx={{
           pointerEvents: 'none',
         }}
