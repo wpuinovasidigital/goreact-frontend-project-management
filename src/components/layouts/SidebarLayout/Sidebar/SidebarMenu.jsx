@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router';
 const SidebarMenu = () => {
   const navigate = useNavigate();
   return (
-    <Box sx={{ width: '100%', maxWidth: '100%', paddingTop: 1 }}>
+    <Box sx={{ width: 200, paddingTop: 1 }}>
       <MenuList>
         <MenuItem onClick={() => navigate('/')} sx={{ position: 'relative' }}>
           <ListItemIcon>

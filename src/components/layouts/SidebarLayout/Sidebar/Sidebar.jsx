@@ -11,12 +11,12 @@ const Sidebar = () => {
         top: 0,
         left: 0,
         height: '100vh',
-        width: '15rem',
         flexGrow: 0,
         flexShrink: 0,
         borderRight: '1px solid #ccc',
         zIndex: 1000,
         paddingTop: '4rem', // Adjust for fixed navbar height
+        background: "#ffffff"
       }}
     >
       <SidebarMenu />
