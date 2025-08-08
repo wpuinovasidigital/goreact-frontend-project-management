@@ -8,6 +8,8 @@ import Dashboard from './components/pages/Dashboard';
 import Projects from './components/pages/Projects';
 import DetailProject from './components/pages/Projects/DetailProject';
 import Settings from './components/pages/Settings';
+import sidebarLoader from './components/layouts/SidebarLayout/SidebarLayout.loader';
+import authLoader from './components/layouts/AuthLayout/AuthLayout.loader';
 
 const theme = createTheme({
   typography: {
@@ -18,22 +20,27 @@ const theme = createTheme({
 const router = createBrowserRouter([
   {
     path: '/',
+    loader: sidebarLoader,
     element: <Dashboard />,
   },
   {
     path: '/login',
+    loader: authLoader,
     element: <Login />,
   },
   {
     path: '/projects',
+    loader: sidebarLoader,
     element: <Projects />,
   },
   {
     path: '/projects/:id',
+    loader: sidebarLoader,
     element: <DetailProject />,
   },
   {
     path: '/settings',
+    loader: sidebarLoader,
     element: <Settings />,
   },
 ]);
