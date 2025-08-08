@@ -2,9 +2,9 @@ import { Paper, Stack } from '@mui/material';
 import dayjs from 'dayjs';
 import { useForm } from 'react-hook-form';
 
-import DatePicker from '../../../ui/Forms/DatePicker';
-import Select from '../../../ui/Forms/Select';
-import TextField from '../../../ui/Forms/TextField';
+import DatePicker from '@/components/ui/Forms/DatePicker';
+import Select from '@/components/ui/Forms/Select';
+import TextField from '@/components/ui/Forms/TextField';
 
 const Login = () => {
   const { control, watch } = useForm({
