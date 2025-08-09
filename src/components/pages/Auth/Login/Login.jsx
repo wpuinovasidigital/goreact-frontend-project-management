@@ -1,12 +1,12 @@
 import { Button, Paper, Stack, Typography } from '@mui/material';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 
 import AuthLayout from '@/components/layouts/AuthLayout';
 import TextField from '@/components/ui/Forms/TextField';
-import session from '@/utils/session';
 import services from '@/services';
-import { useState } from 'react';
+import session from '@/utils/session';
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
@@ -16,10 +16,11 @@ const Login = () => {
   const { control, handleSubmit } = useForm({});
 
   const onSubmit = async (formValues) => {
-    console.log(formValues)
+    setLoading(true);
     const response = await services.auth.login(formValues);
-    console.log(response);
-    
+    session.setSession(response.data.data.access_token);
+    setLoading(false);
+    navigate('/');
   };
 
   return (
