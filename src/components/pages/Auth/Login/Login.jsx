@@ -5,17 +5,21 @@ import { useNavigate } from 'react-router';
 import AuthLayout from '@/components/layouts/AuthLayout';
 import TextField from '@/components/ui/Forms/TextField';
 import session from '@/utils/session';
-
+import services from '@/services';
+import { useState } from 'react';
 
 const Login = () => {
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit } = useForm({});
 
-  const onSubmit = (formValues) => {
-    console.log('Login data:', formValues);
-    session.setSession('dummy-token');
-    navigate('/');
+  const onSubmit = async (formValues) => {
+    console.log(formValues)
+    const response = await services.auth.login(formValues);
+    console.log(response);
+    
   };
 
   return (
@@ -42,7 +46,7 @@ const Login = () => {
         >
           <TextField label={'Email'} control={control} name="email" />
           <TextField label={'Password'} control={control} name="password" />
-          <Button type="submit" variant="contained" fullWidth>
+          <Button type="submit" variant="contained" loading={loading} fullWidth>
             Masuk ke akun Anda
           </Button>
           <Button
