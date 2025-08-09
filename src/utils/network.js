@@ -30,7 +30,7 @@ network.interceptors.response.use(
       session.clearSession();
     }
 
-    console.log("network error: ", error)
+    console.log('network error: ', error);
 
     // window.location.href = '/login';
 
