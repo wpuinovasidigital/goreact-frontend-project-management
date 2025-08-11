@@ -1,4 +1,12 @@
-import { TextField as BaseTextField, Box } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import {
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+} from '@mui/material';
+import { useEffect, useState } from 'react';
 import { Controller } from 'react-hook-form';
 
 const TextField = ({
@@ -7,31 +15,62 @@ const TextField = ({
   label,
   defaultValue,
   helperText,
+  secureText = false,
+  id,
   ...props
 }) => {
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    setShowPassword(secureText)
+  }, [secureText])
+
   return (
     <Controller
       name={name}
       control={control}
       defaultValue={defaultValue}
-      render={({ field: { value, onChange, onBlur } }) => {
+      render={({
+        field: { value, onChange, onBlur },
+        fieldState: { error },
+      }) => {
         return (
-          <Box
+          <FormControl
             sx={{
               marginBottom: 2,
             }}
+            variant="outlined"
           >
-            <BaseTextField
+            <InputLabel htmlFor={id}>{label}</InputLabel>
+            <OutlinedInput
               {...props}
+              id={id}
+              type={showPassword ? 'password' : 'text'}
               fullWidth
               label={label}
               variant="outlined"
               value={value}
               onBlur={onBlur}
               onChange={onChange}
-              helperText={helperText}
+              helperText={error?.message ? error?.message : helperText}
+              error={Boolean(error)}
+              endAdornment={
+                secureText ? (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setShowPassword(!showPassword)}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ) : (
+                  <></>
+                )
+              }
             />
-          </Box>
+          </FormControl>
         );
       }}
     />
