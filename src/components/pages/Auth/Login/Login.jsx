@@ -8,11 +8,21 @@ import session from '@/utils/session';
 import { useState } from 'react';
 import services from '@/services';
 
+import * as Yup from 'yup';
+import {yupResolver} from '@hookform/resolvers/yup'
+
+const loginSchema = Yup.object({
+  email: Yup.string().required().email(),
+  password: Yup.string().required(),
+})
+
 const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit } = useForm({
+    resolver: yupResolver(loginSchema)
+  });
 
   const onSubmit = async (formValues) => {
     setLoading(true);
@@ -51,7 +61,7 @@ const Login = () => {
           onSubmit={handleSubmit(onSubmit)}
         >
           <TextField label={'Email'} control={control} name="email" />
-          <TextField label={'Password'} control={control} name="password" />
+          <TextField label={'Password'} control={control} name="password" secureText/>
           <Button type="submit" variant="contained" fullWidth>
             Masuk ke akun Anda
           </Button>
