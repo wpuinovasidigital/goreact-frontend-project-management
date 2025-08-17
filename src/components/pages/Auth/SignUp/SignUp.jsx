@@ -6,10 +6,9 @@ import { useNavigate } from 'react-router';
 import * as Yup from 'yup';
 
 import AuthLayout from '@/components/layouts/AuthLayout';
+import Dialog from '@/components/ui/Dialog';
 import TextField from '@/components/ui/Forms/TextField';
 import services from '@/services';
-import Dialog from '@/components/ui/Dialog';
-
 
 const signUpSchema = Yup.object({
   name: Yup.string().required('Nama harus di isi'),
@@ -29,7 +28,10 @@ const SignUp = () => {
   const [loading, setLoading] = useState(false);
 
   const [openDialog, setOpenDialog] = useState(false);
-  const [dialogMessage, setDialogMessage] = useState({title: '', message: ''});
+  const [dialogMessage, setDialogMessage] = useState({
+    title: '',
+    message: '',
+  });
   const [dialogActions, setDialogActions] = useState([]);
 
   const navigate = useNavigate();
@@ -47,16 +49,17 @@ const SignUp = () => {
       setOpenDialog(true);
       setDialogMessage({
         title: 'Oops... Terjadi Kesalahan',
-        message: error?.response?.data?.message ?? 'Silakan coba beberapa saat lagi.'
+        message:
+          error?.response?.data?.message ?? 'Silakan coba beberapa saat lagi.',
       });
       setDialogActions([
         {
-            label: 'Mengerti',
-            onClick() {
-                setOpenDialog(false)
-            }
-        }
-      ])
+          label: 'Mengerti',
+          onClick() {
+            setOpenDialog(false);
+          },
+        },
+      ]);
     } finally {
       setLoading(false);
     }
@@ -84,17 +87,22 @@ const SignUp = () => {
           component={'form'}
           onSubmit={handleSubmit(onSubmit)}
         >
-          <TextField id={"name"} label={'Nama'} control={control} name="name" />
-          <TextField id={"email"} label={'Email'} control={control} name="email" />
+          <TextField id={'name'} label={'Nama'} control={control} name="name" />
           <TextField
-            id={"password"}
+            id={'email'}
+            label={'Email'}
+            control={control}
+            name="email"
+          />
+          <TextField
+            id={'password'}
             label={'Password'}
             control={control}
             name="password"
             secureText
           />
           <TextField
-            id={"confirmPassword"}
+            id={'confirmPassword'}
             label={'Konfirmasi Password'}
             control={control}
             name="confirmPassword"
