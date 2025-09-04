@@ -33,7 +33,7 @@ const Project = () => {
         },
       ]}
     >
-      
+
         <Table
           isLoading={loading}
           columns={[

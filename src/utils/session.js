@@ -1,17 +1,22 @@
-const TOKEN_KEY = 'my-token';
+const SESSION_KEY = 'my-session';
 
 const session = {
-  setSession(token) {
-    localStorage.setItem(TOKEN_KEY, token);
+  setSession(user) {
+    localStorage.setItem(SESSION_KEY, JSON.stringify(user));
   },
   getSession() {
-    return localStorage.getItem(TOKEN_KEY);
+    const user = JSON.parse(localStorage.getItem(SESSION_KEY));
+    return user;
+  },
+  getToken() {
+    const session = this.getSession();
+    return session?.access_token ?? null;
   },
   clearSession() {
-    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(SESSION_KEY);
   },
   isAuthenticated() {
-    const session = localStorage.getItem(TOKEN_KEY);
+    const session = localStorage.getItem(SESSION_KEY);
     return !!session;
   },
 };
