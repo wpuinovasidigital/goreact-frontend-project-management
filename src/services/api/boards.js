@@ -9,8 +9,17 @@ const boards = {
       ? network.get(`/api/v1/boards`, { params })
       : network.get('/api/v1/boards/my', { params });
   },
-  async detail(id) {
-    return network.get(`/api/v1/boards/${id}`);
+  async detail(boardId) {
+    return network.get(`/api/v1/boards/${boardId}`);
+  },
+  async lists(boardId) {
+    return network.get(`/api/v1/boards/${boardId}/lists`);
+  },
+  async remove(boardId) {
+    return network.delete(`/api/v1/boards/${boardId}`);
+  },
+  async create(payload) {
+    return network.post('/api/v1/boards', payload);
   },
 };
 

@@ -10,6 +10,7 @@ import Pagination from '@/components/ui/Pagination';
 import Table from '@/components/ui/Table';
 import boards from '@/services/api/boards';
 import datetime from '@/utils/datetime';
+import ModalAddNewProject from './Modals/ModalAddNewProject';
 
 const Project = () => {
   const [loading, setLoading] = useState(false);
@@ -20,6 +21,8 @@ const Project = () => {
     total: 0,
     total_pages: 0,
   });
+
+  const [openNewProjectModal, setOpenNewProjectModal] = useState(false);
 
   const [page, setPage] = useState(1);
   const [debouncePage] = useDebounce(page, 100);
@@ -38,19 +41,25 @@ const Project = () => {
   const [debounceSearch] = useDebounce(watchSearch, 1000);
 
   useEffect(() => {
-    const fetchBoards = async () => {
-      setLoading(true);
-      const response = await boards.my({
-        page: debouncePage,
-        limit: 10,
-        filter: debounceSearch,
-      });
-      setBoardsData(response.data.data);
-      setBoardsMeta(response.data.meta);
-      setLoading(false);
-    };
-    fetchBoards();
+    fetchBoards(debouncePage, debounceSearch);
   }, [debouncePage, debounceSearch]);
+
+  const fetchBoards = async (page, filter) => {
+    setLoading(true);
+    const response = await boards.my({
+      page,
+      limit: 10,
+      filter,
+    });
+    setBoardsData(response.data.data);
+    setBoardsMeta(response.data.meta);
+    setLoading(false);
+  };
+
+  const handleCloseAddNewProject = async () => {
+    setOpenNewProjectModal(false);
+    await fetchBoards(debouncePage, debounceSearch);
+  };
 
   return (
     <SidebarLayout
@@ -61,7 +70,7 @@ const Project = () => {
         },
       ]}
     >
-      <Stack direction={'row'}>
+      <Stack direction={'row'} justifyContent={'space-between'}>
         <Box>
           <TextField
             control={control}
@@ -70,6 +79,15 @@ const Project = () => {
             name="search"
             placeholder="Search"
           />
+        </Box>
+        <Box>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setOpenNewProjectModal(true)}
+          >
+            Buat Proyek Baru
+          </Button>
         </Box>
       </Stack>
       <Table
@@ -109,6 +127,10 @@ const Project = () => {
         onChange={(_, page) => {
           setPage(page);
         }}
+      />
+      <ModalAddNewProject
+        open={openNewProjectModal}
+        handleClose={handleCloseAddNewProject}
       />
     </SidebarLayout>
   );
