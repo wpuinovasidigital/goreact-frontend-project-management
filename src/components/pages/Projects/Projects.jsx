@@ -45,15 +45,21 @@ const Project = () => {
   }, [debouncePage, debounceSearch]);
 
   const fetchBoards = async (page, filter) => {
-    setLoading(true);
-    const response = await boards.my({
-      page,
-      limit: 10,
-      filter,
-    });
-    setBoardsData(response.data.data);
-    setBoardsMeta(response.data.meta);
-    setLoading(false);
+    try {
+      setLoading(true);
+      const response = await boards.my({
+        page,
+        limit: 10,
+        filter,
+      });
+      setBoardsData(response.data.data);
+      setBoardsMeta(response.data.meta);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleCloseAddNewProject = async () => {

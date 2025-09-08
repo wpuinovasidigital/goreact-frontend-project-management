@@ -62,6 +62,7 @@ const SidebarLayout = ({ children, pageTitle = '', breadcrumbs = [] }) => {
             </Typography>
           </Box>
         )}
+
         {children}
       </Box>
     </>

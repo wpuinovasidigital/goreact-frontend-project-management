@@ -5,8 +5,8 @@ const boards = {
   async my(params = {}) {
     const sessionData = session.getSession();
     const role = sessionData.user.role;
-    return role === 'admin'
-      ? network.get(`/api/v1/boards`, { params })
+    return role === 'admin' ?
+      network.get(`/api/v1/boards`, { params })
       : network.get('/api/v1/boards/my', { params });
   },
   async detail(boardId) {
@@ -20,6 +20,12 @@ const boards = {
   },
   async create(payload) {
     return network.post('/api/v1/boards', payload);
+  },
+  async update(id, payload) {
+    return network.put(`/api/v1/boards/${id}`, payload);
+  },
+  async addMembers(boardId, memberId) {
+    return network.post(`/api/v1/boards/${boardId}/members`, [memberId]);
   },
 };
 

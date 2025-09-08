@@ -7,13 +7,20 @@ import Modal from '@/components/ui/Modal';
 import { Close } from '@mui/icons-material';
 import { useForm } from 'react-hook-form';
 import DatePicker from '@/components/ui/Forms/DatePicker';
+import boards from '@/services/api/boards';
+import { useParams } from 'react-router';
 
-const ModalUpdateDeadline = ({ open, handleClose }) => {
-  const { control, handleSubmit } = useForm();
+const ModalUpdateDeadline = ({ open, data, handleClose }) => {
+  const { id } = useParams();
+  const { control, reset, handleSubmit } = useForm();
 
-  const onSubmit = async (data) => {
-    console.log('Form Data:', data);
-    // Handle the form submission logic here
+  const onSubmit = async (payload) => {
+    await boards.update(id, {
+      ...data,
+      due_date: payload.due_date,
+    });
+    reset();
+    handleClose();
   };
 
   return (
@@ -35,9 +42,9 @@ const ModalUpdateDeadline = ({ open, handleClose }) => {
           }}
         >
           <DatePicker
-            label="Pilih Tanggal Deadline"
-            name="dueDate"
             control={control}
+            label="Tanggal Deadline"
+            name="due_date"
             sx={{
               width: '100%',
             }}
@@ -50,7 +57,7 @@ const ModalUpdateDeadline = ({ open, handleClose }) => {
           justifyContent="flex-end"
           mt={3}
         >
-          <Button variant="contained" onClick={handleClose} sx={{ mt: 2 }}>
+          <Button type="submit" variant="contained" sx={{ mt: 2 }}>
             Simpan
           </Button>
           <Button

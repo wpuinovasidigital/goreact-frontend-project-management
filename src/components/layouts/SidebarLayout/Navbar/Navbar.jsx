@@ -8,6 +8,7 @@ import session from '@/utils/session';
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const userSession = session.getSession();
 
   return (
     <Box
@@ -27,7 +28,7 @@ const Navbar = () => {
           icon={<AccountCircle />}
           options={[
             {
-              label: 'Profile',
+              label: userSession?.user?.name ?? '-',
               onClick() {
                 console.log('handle navigate to profile');
               },

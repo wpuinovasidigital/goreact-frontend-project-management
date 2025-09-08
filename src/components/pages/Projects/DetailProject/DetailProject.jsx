@@ -19,6 +19,7 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import {
+  AvatarGroup,
   Box,
   Button,
   Chip,
@@ -42,6 +43,7 @@ import boards from '@/services/api/boards';
 import datetime from '@/utils/datetime';
 import lists from '@/services/api/lists';
 import cards from '@/services/api/cards';
+import Avatar from '@/components/ui/Avatar';
 
 const ListDroppable = ({ id, data, children }) => {
   const { setNodeRef } = useDroppable({
@@ -108,7 +110,7 @@ const CardItem = ({ id, data, onClick }) => {
         mt={1}
         sx={{
           maxWidth: '100%',
-          maxHeight: '3.5rem',
+          // maxHeight: '3.5rem',
           overflow: 'hidden',
         }}
       >
@@ -204,13 +206,28 @@ const DetailProject = () => {
     // console.log(grouped);
 
     for (let cardItem of cardsGroup) {
-      console.log('update position: ', cardItem.boardListId);
       await lists.updatePosition(cardItem.boardListId, {
         positions: cardItem.positions,
       });
     }
+  };
 
-    await fetchCardsOnList();
+  const updateCardList = async (active, over) => {
+    // console.log({ active, over });
+    // console.log({
+    //   list_id: over.id,
+    //   title: active.title,
+    //   description: active.description,
+    //   due_date: active.due_date,
+    //   position: getItemsByBoardId(over.id).length + 1,
+    // });
+    await cards.update(active.id, {
+      list_id: over.id ?? over.boardListId,
+      title: active.title,
+      description: active.description,
+      due_date: active.due_date,
+      position: getItemsByBoardId(over.id).length + 1,
+    });
   };
 
   const fetchCardsOnList = async () => {
@@ -235,6 +252,7 @@ const DetailProject = () => {
             description: _cardsData.description,
             boardListId: boardList[idxList].id,
             position: _cardsData.position,
+            due_date: _cardsData.due_date,
           });
         }
       }
@@ -299,19 +317,23 @@ const DetailProject = () => {
         }}
       >
         <Stack spacing={1} direction={'row'} justifyContent={'space-between'}>
-          <Stack spacing={1} direction={'row'}>
-            {/* <Chip label="Berjalan" color="info" /> */}
+          <Stack spacing={1} direction={'row'} alignItems={'center'}>
             <Chip
               label={`Deadline: ${datetime.format(boardData?.due_date)}`}
               color="error"
             />
+            <AvatarGroup>
+              <Avatar text={'Muhammad Agung'} />
+              <Avatar text={'Agung Rizkyana'} />
+              <Avatar text={'Triadynata Zamhur'} />
+            </AvatarGroup>
           </Stack>
           <Box>
-            <EditProject />
+            <EditProject data={boardData} />
           </Box>
         </Stack>
       </Box>
-      <Paper
+      <Box
         sx={{
           p: 1,
         }}
@@ -346,7 +368,7 @@ const DetailProject = () => {
                 };
               });
               setBoardItems(updatedBoardItems);
-              await updatePositions(updatedBoardItems);
+              await updateCardList(active.data.current, over.data.current);
               return;
             }
 
@@ -477,7 +499,7 @@ const DetailProject = () => {
             </DragOverlay>
           </Box>
         </DndContext>
-      </Paper>
+      </Box>
       <ModalAddNewTask
         open={toggleModalAddNewTask}
         handleClose={() => {

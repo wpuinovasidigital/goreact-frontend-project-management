@@ -41,6 +41,8 @@ const TextField = ({
               marginBottom: 2,
             }}
             variant="outlined"
+            fullWidth
+            error={error || props.error}
           >
             <InputLabel htmlFor={id}>{label}</InputLabel>
             <OutlinedInput
@@ -68,7 +70,7 @@ const TextField = ({
                 )
               }
             />
-            <FormHelperText error={Boolean(error)}>
+            <FormHelperText error={Boolean(error) || props.error}>
               {error?.message ? error?.message : helperText}
             </FormHelperText>
           </FormControl>

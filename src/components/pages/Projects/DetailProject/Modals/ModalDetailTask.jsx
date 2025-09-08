@@ -47,7 +47,7 @@ const ModalDetailTask = ({ open, handleClose, data }) => {
     const currentAttachments = [...attachemnts];
     currentAttachments.splice(index, 1);
     setAttachments(currentAttachments);
-  }
+  };
 
   return (
     <Modal
@@ -182,7 +182,12 @@ const ModalDetailTask = ({ open, handleClose, data }) => {
                       </Box>
                     </Stack>
                     <Box>
-                      <IconButton onClick={() => handleRemoveAttachments(index)} color="error" variant="outlined" size="small">
+                      <IconButton
+                        onClick={() => handleRemoveAttachments(index)}
+                        color="error"
+                        variant="outlined"
+                        size="small"
+                      >
                         <Delete />
                       </IconButton>
                     </Box>

@@ -1,4 +1,4 @@
-import { IconButton, Menu, MenuItem } from '@mui/material';
+import { Box, IconButton, Menu, MenuItem, Typography } from '@mui/material';
 import { useState } from 'react';
 
 const Dropdown = ({ options, icon }) => {
@@ -21,8 +21,15 @@ const Dropdown = ({ options, icon }) => {
               option.onClick();
               handleClose();
             }}
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              gap: 3,
+            }}
           >
-            {option.label}
+            <Typography variant={'body1'}>{option.label}</Typography>
+            <Box>{option.icon ?? <></>}</Box>
           </MenuItem>
         ))}
       </Menu>
