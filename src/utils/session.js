@@ -18,7 +18,7 @@ const session = {
   getToken() {
     const session = this.getSession();
     return session?.access_token ?? null;
-  }
+  },
 };
 
 export default session;

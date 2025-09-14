@@ -17,11 +17,7 @@ const Table = ({ columns, data, isLoading }) => {
 
   return (
     <TableContainer component={Paper}>
-      {
-        isLoading && (
-          <LinearProgress />
-        )
-      }
+      {isLoading && <LinearProgress />}
       <BaseTable sx={{ minWidth: 650 }}>
         <TableHead>
           <TableRow>
