@@ -30,7 +30,7 @@ const Login = () => {
     setLoading(true);
     try {
       const response = await services.auth.login(formValues);
-      session.setSession(response.data.data.access_token);
+      session.setSession(response.data.data);
       navigate('/');
     } catch (error) {
       console.error('login gagal:', error);
