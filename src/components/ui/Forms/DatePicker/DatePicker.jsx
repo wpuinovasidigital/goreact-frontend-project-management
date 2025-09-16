@@ -15,7 +15,10 @@ const DatePicker = ({
       name={name}
       control={control}
       defaultValue={defaultValue}
-      render={({ field: { value, onChange, onBlur } }) => {
+      render={({
+        field: { value, onChange, onBlur },
+        fieldState: { error },
+      }) => {
         return (
           <Box
             sx={{
@@ -30,7 +33,7 @@ const DatePicker = ({
               slotProps={{
                 textField: {
                   fullWidth: true,
-                  helperText,
+                  helperText: error?.message ?? helperText,
                   onBlur,
                 },
               }}
