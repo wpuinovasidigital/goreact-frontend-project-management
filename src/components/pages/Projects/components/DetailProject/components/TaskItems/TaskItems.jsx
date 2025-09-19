@@ -8,6 +8,7 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 import { DRAG_CARD } from '@/utils/constants';
 import useDetailProjectContext from '../../hooks/useDetailProjectContext';
+import ModalTaskDetail from '../../../Modals/ModalTaskDetail';
 
 export const TaskSortableItem = ({ id, item, listId }) => {
   const detailProjectContext = useDetailProjectContext();
@@ -35,8 +36,13 @@ export const TaskSortableItem = ({ id, item, listId }) => {
 
   const handleClickTaskItem = (e) => {
     e.stopPropagation();
-    alert('Clicked');
-  }
+    detailProjectContext.setIsOpenTaskDetail(true);
+    detailProjectContext.setTaskDetail({
+      ...item,
+      listId,
+      type: DRAG_CARD,
+    });
+  };
 
   return (
     <Box ref={setNodeRef} key={item.public_id}>
@@ -97,28 +103,30 @@ const TaskItems = ({ listId }) => {
     }
 
     return (
-      <Stack
-        gap={1}
-        p={1}
-        sx={{
-          overflowY: 'auto',
-          pb: 1,
-        }}
-      >
-        <SortableContext
-          items={taskItemDataIds}
-          strategy={verticalListSortingStrategy}
+      <>
+        <Stack
+          gap={1}
+          p={1}
+          sx={{
+            overflowY: 'auto',
+            pb: 1,
+          }}
         >
-          {taskItemsData?.map((item) => (
-            <TaskSortableItem
-              key={item.public_id}
-              id={item.public_id}
-              item={item}
-              listId={listId}
-            />
-          ))}
-        </SortableContext>
-      </Stack>
+          <SortableContext
+            items={taskItemDataIds}
+            strategy={verticalListSortingStrategy}
+          >
+            {taskItemsData?.map((item) => (
+              <TaskSortableItem
+                key={item.public_id}
+                id={item.public_id}
+                item={item}
+                listId={listId}
+              />
+            ))}
+          </SortableContext>
+        </Stack>
+      </>
     );
   };
 

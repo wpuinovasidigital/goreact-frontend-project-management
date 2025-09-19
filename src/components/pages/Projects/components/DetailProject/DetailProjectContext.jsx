@@ -23,6 +23,10 @@ const defaultState = {
   isOver: false,
   setIsOver() {},
   getProjectInitials() {},
+  isOpenTaskDetail: false,
+  setIsOpenTaskDetail() {},
+  taskDetail: {},
+  setTaskDetail() {},
 };
 
 export const DetailProjectContext = createContext(defaultState);
@@ -34,6 +38,8 @@ const DetailProjectProvider = ({ children }) => {
   const [activeDragItem, setActiveDragItem] = useState(null);
   const [overDragItem, setOverDragItem] = useState(null);
   const [isOver, setIsOver] = useState(false);
+  const [isOpenTaskDetail, setIsOpenTaskDetail] = useState(false);
+  const [taskDetail, setTaskDetail] = useState({});
 
   const [isLoadingBoardLists, setLoadingBoardLists] = useState(false);
   const [boardListData, setBoardListData] = useState([]);
@@ -195,6 +201,8 @@ const DetailProjectProvider = ({ children }) => {
         boardListData,
         isOver,
         getProjectInitials,
+        isOpenTaskDetail,
+        taskDetail,
 
         getTaskItemsByListId,
         setUpdateTaskItemPosition,
@@ -202,6 +210,8 @@ const DetailProjectProvider = ({ children }) => {
         setOverDragItem,
         fetchBoardLists,
         setIsOver,
+        setIsOpenTaskDetail,
+        setTaskDetail,
       }}
     >
       {children}

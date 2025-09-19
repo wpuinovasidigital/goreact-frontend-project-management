@@ -7,6 +7,9 @@ const cards = {
   async update(cardId, data) {
     return network.put(`/api/v1/cards/${cardId}`, data);
   },
+  async getDetail(cardId) {
+    return network.get(`/api/v1/cards/${cardId}`);
+  },
 };
 
 export default cards;

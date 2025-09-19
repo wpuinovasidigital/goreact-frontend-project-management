@@ -12,10 +12,7 @@ import SidebarLayout from '@/components/layouts/SidebarLayout';
 import { useLoaderData } from 'react-router';
 import { useMemo, useState } from 'react';
 import services from '@/services';
-import {
-  DeleteForever,
-  
-} from '@mui/icons-material';
+import { DeleteForever } from '@mui/icons-material';
 import TaskItems, { TaskSortableItem } from './components/TaskItems/TaskItems';
 import CreateNewList from './components/CreateNewList/CreateNewList';
 import {
@@ -40,6 +37,7 @@ import { DRAG_LIST, DRAG_CARD } from '@/utils/constants';
 import useDetailProjectContext from './hooks/useDetailProjectContext';
 import DetailProjectProvider from './DetailProjectContext';
 import CreateNewTask from './components/CreateNewTask/CreateNewTask';
+import ModalTaskDetail from '../Modals/ModalTaskDetail';
 
 const ListSortableItem = ({ id, item }) => {
   const detailProjectContext = useDetailProjectContext();
@@ -281,6 +279,7 @@ const DetailProjectComponent = () => {
         </DndContext>
         <CreateNewList />
       </Stack>
+      <ModalTaskDetail />
     </SidebarLayout>
   );
 };
