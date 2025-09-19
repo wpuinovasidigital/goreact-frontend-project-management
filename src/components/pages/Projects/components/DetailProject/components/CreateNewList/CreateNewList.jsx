@@ -6,19 +6,24 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import services from '@/services';
+import { useLoaderData } from 'react-router';
+import useDetailProjectContext from '../../hooks/useDetailProjectContext';
 
 const createListSchema = Yup.object({
   title: Yup.string().required(),
 });
 
-const CreateNewList = ({ boardId, onSuccess }) => {
+const CreateNewList = () => {
+  const detailProjectData = useLoaderData();
+  const detailProjectContext = useDetailProjectContext();
+
   const [isLoadingCreateList, setLoadingCreateList] = useState(false);
   const [showFormCreateList, setShowFormCreateList] = useState(false);
 
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
       title: '',
-      board_public_id: boardId,
+      board_public_id: detailProjectData.public_id,
     },
     resolver: yupResolver(createListSchema),
   });
@@ -32,26 +37,29 @@ const CreateNewList = ({ boardId, onSuccess }) => {
     setLoadingCreateList(false);
     reset();
     handleCloseFormCreateList();
-    onSuccess();
+    await detailProjectContext.fetchBoardLists();
   };
   return (
-    <Paper
+    <Box
       sx={{
-        maxHeight: 850,
         flexBasis: 300,
         flexShrink: 0,
-        p: 2,
         overflowY: 'auto',
       }}
     >
       {showFormCreateList ? (
-        <Box component={'form'} onSubmit={handleSubmit(onSubmitCreateList)}>
+        <Paper
+          sx={{ p: 1 }}
+          component={'form'}
+          onSubmit={handleSubmit(onSubmitCreateList)}
+        >
           <TextField
             control={control}
             name={'title'}
             label={'Nama daftar tugas'}
             rows={1}
             fullWidth
+            autoFocus
           />
           <Stack direction={'row'} gap={1} justifyContent={'flex-end'}>
             <Button
@@ -73,7 +81,7 @@ const CreateNewList = ({ boardId, onSuccess }) => {
               Batal
             </Button>
           </Stack>
-        </Box>
+        </Paper>
       ) : (
         <Button
           fullWidth
@@ -81,11 +89,15 @@ const CreateNewList = ({ boardId, onSuccess }) => {
           type="button"
           variant="contained"
           onClick={handleOpenFormCreateList}
+          disableElevation
+          sx={{
+            mt: 1,
+          }}
         >
           Buat daftar tugas
         </Button>
       )}
-    </Paper>
+    </Box>
   );
 };
 

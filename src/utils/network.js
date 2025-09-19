@@ -26,9 +26,8 @@ network.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response && error.response.status === 401) {
+    if (error.response && error.response.data.response_code === 401) {
       session.clearSession();
-      // window.location.href = "/login";
     }
 
     return Promise.reject(error);

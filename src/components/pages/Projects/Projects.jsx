@@ -11,7 +11,7 @@ import TextField from '@/components/ui/Forms/TextField';
 import { useForm, useWatch } from 'react-hook-form';
 import { useDebounce } from 'use-debounce';
 import Pagination from '@/components/ui/Pagination';
-import ModalAddNewProject from './Modals/ModalAddNewProject';
+import ModalAddNewProject from './components/Modals/ModalAddNewProject';
 
 const Projects = () => {
   const [isLoading, setLoading] = useState(false);

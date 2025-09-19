@@ -10,6 +10,11 @@ const lists = {
   async getCards(listId) {
     return network.get(`/api/v1/lists/${listId}/cards`);
   },
+  async updateCardPositions(listId, data) {
+    return network.put(`/api/v1/lists/${listId}/positions`, {
+      positions: data,
+    });
+  },
 };
 
 export default lists;

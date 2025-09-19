@@ -4,14 +4,21 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import TextField from '@/components/ui/Forms/TextField';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import services from '@/services';
+import { AddCircle } from '@mui/icons-material';
+import useDetailProjectContext from '../../hooks/useDetailProjectContext';
 
 const createNewTaskSchema = Yup.object({
   title: Yup.string().required(),
 });
 
-const CreateNewTask = ({ listId, onSuccess }) => {
+const CreateNewTask = ({ listId }) => {
+  const detailProjectContext = useDetailProjectContext();
+  const taskItemsData = detailProjectContext.getTaskItemsByListId(listId);
+  const taskItemDataIds = useMemo(() => {
+    return taskItemsData.map((item) => item.public_id);
+  }, [taskItemsData]);
   const [isLoading, setLoading] = useState(false);
   const [isShowFormCreateNewTask, setShowFormCreateNewTask] = useState(false);
 
@@ -27,11 +34,12 @@ const CreateNewTask = ({ listId, onSuccess }) => {
     await services.cards.create({
       ...values,
       list_id: listId,
+      position: taskItemDataIds.length === 0 ? 1 : taskItemDataIds.length + 1,
     });
     setLoading(false);
     reset();
     handleCloseFormCreateNewTask();
-    onSuccess();
+    await detailProjectContext.fetchBoardLists();
   };
 
   const handleOpenFormCreateNewTask = () => setShowFormCreateNewTask(true);
@@ -40,13 +48,14 @@ const CreateNewTask = ({ listId, onSuccess }) => {
   return (
     <>
       {isShowFormCreateNewTask ? (
-        <Box p={2} component={'form'} onSubmit={handleSubmit(onSubmit)}>
+        <Box p={1} component={'form'} onSubmit={handleSubmit(onSubmit)}>
           <TextField
             control={control}
             name={'title'}
             label={'Nama tugas'}
             rows={1}
             fullWidth
+            autoFocus
           />
           <Stack direction={'row'} gap={1} justifyContent={'flex-end'}>
             <Button
@@ -70,12 +79,13 @@ const CreateNewTask = ({ listId, onSuccess }) => {
           </Stack>
         </Box>
       ) : (
-        <Box p={2}>
+        <Box p={1}>
           <Button
             type="button"
-            variant="outlined"
+            variant="text"
             fullWidth
             onClick={handleOpenFormCreateNewTask}
+            startIcon={<AddCircle />}
           >
             Buat tugas baru
           </Button>
