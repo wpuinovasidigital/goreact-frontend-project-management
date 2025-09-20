@@ -15,6 +15,9 @@ const cards = {
       user_id: assignees,
     });
   },
+  async remove(cardId) {
+    return network.delete(`/api/v1/cards/${cardId}`);
+  },
 };
 
 export default cards;

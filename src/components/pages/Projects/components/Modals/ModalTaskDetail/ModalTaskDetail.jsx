@@ -1,4 +1,4 @@
-import { CloudUpload } from '@mui/icons-material';
+import { CloudUpload, Delete } from '@mui/icons-material';
 import { Box, Button, colors, Stack, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import { use, useCallback, useEffect, useState } from 'react';
@@ -88,206 +88,227 @@ const ModalTaskDetail = () => {
       handleClose={handleClose}
       title={taskDetailData?.title || 'Detail Tugas'}
     >
-      <Stack
-        width={1000}
-        height={600}
-        overflowY={'auto'}
-        direction={'row'}
-        gap={2}
-        alignItems={'flex-start'}
-        justifyContent={'space-between'}
-        p={2}
-      >
-        <Stack flex={1} width={'50%'} gap={2}>
-          <Typography variant="h5" fontWeight={'bold'}>
-            Deskripsi tugas
-          </Typography>
-          {editDescription ? (
-            <Box component={'form'} onSubmit={handleSubmit(onSubmit)}>
-              <TextField
-                control={control}
-                name={'description'}
-                multiline
-                rows={10}
-                fullWidth
-                disabled={isLoading}
-              />
-              <Stack direction={'row'} justifyContent={'flex-end'} gap={1}>
-                <Button
-                  type="submit"
-                  variant="contained"
+      <Box>
+        <Stack
+          width={1000}
+          height={600}
+          overflowY={'auto'}
+          direction={'row'}
+          gap={2}
+          alignItems={'flex-start'}
+          justifyContent={'space-between'}
+          p={2}
+        >
+          <Stack width={'65%'} gap={2}>
+            <Typography variant="h5" fontWeight={'bold'}>
+              Deskripsi tugas
+            </Typography>
+            {editDescription ? (
+              <Box component={'form'} onSubmit={handleSubmit(onSubmit)}>
+                <TextField
+                  control={control}
+                  name={'description'}
+                  multiline
+                  rows={10}
+                  fullWidth
                   disabled={isLoading}
-                  loading={isLoading}
-                >
-                  Simpan
-                </Button>
+                />
+                <Stack direction={'row'} justifyContent={'flex-end'} gap={1}>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    disabled={isLoading}
+                    loading={isLoading}
+                  >
+                    Simpan
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outlined"
+                    onClick={() => setEditDescription(false)}
+                    disabled={isLoading}
+                  >
+                    Batal
+                  </Button>
+                </Stack>
+              </Box>
+            ) : (
+              <Typography
+                component={'a'}
+                variant="body2"
+                sx={{
+                  display: 'block',
+                  ':hover': {
+                    background: colors.grey[100],
+                    cursor: 'pointer',
+                    p: 1,
+                    borderRadius: 1,
+                  },
+                }}
+                onClick={() => setEditDescription(true)}
+              >
+                {taskDetailData.description ||
+                  'Belum ada keterangan, klik untuk tambah'}
+              </Typography>
+            )}
+          </Stack>
+          <Stack width={'35%'} gap={2}>
+            <Stack gap={2}>
+              <Typography variant="h5" fontWeight={'bold'}>
+                Deadline
+              </Typography>
+              <Stack>
+                {editDueDate ? (
+                  <Box component={'form'} onSubmit={handleSubmit(onSubmit)}>
+                    <DatePicker
+                      control={control}
+                      name={'due_date'}
+                      fullWidth
+                      disabled={isLoading}
+                      maxDate={dayjs(detailProjectData.due_date)}
+                    />
+                    <Stack
+                      direction={'row'}
+                      justifyContent={'flex-end'}
+                      gap={1}
+                    >
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        disabled={isLoading}
+                        loading={isLoading}
+                      >
+                        Simpan
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outlined"
+                        onClick={() => setEditDueDate(false)}
+                        disabled={isLoading}
+                      >
+                        Batal
+                      </Button>
+                    </Stack>
+                  </Box>
+                ) : (
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      display: 'block',
+                      ':hover': {
+                        background: colors.grey[100],
+                        cursor: 'pointer',
+                        p: 1,
+                        borderRadius: 1,
+                      },
+                    }}
+                    onClick={() => setEditDueDate(true)}
+                  >
+                    Belum ada deadline, klik untuk tambah
+                  </Typography>
+                )}
+              </Stack>
+            </Stack>
+            <Stack gap={2}>
+              <Typography variant="h5" fontWeight={'bold'}>
+                Assignee
+              </Typography>
+              <Stack>
+                {editAssignee ? (
+                  <Box
+                    component={'form'}
+                    onSubmit={handleSubmitAssignee(onSubmitAssignee)}
+                  >
+                    <Select
+                      control={controlFormAssignee}
+                      label={'Pilih member'}
+                      name={'assignees'}
+                      options={detailProjectContext.members.map((member) => ({
+                        label: member.email,
+                        value: member.public_id,
+                      }))}
+                      multiple
+                    />
+                    <Stack
+                      mt={1}
+                      direction={'row'}
+                      justifyContent={'flex-end'}
+                      gap={1}
+                    >
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        disabled={isLoading}
+                        loading={isLoading}
+                      >
+                        Simpan
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outlined"
+                        onClick={() => setEditAssignee(false)}
+                        disabled={isLoading}
+                      >
+                        Batal
+                      </Button>
+                    </Stack>
+                  </Box>
+                ) : (
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      display: 'block',
+                      ':hover': {
+                        background: colors.grey[100],
+                        cursor: 'pointer',
+                        p: 1,
+                        borderRadius: 1,
+                      },
+                    }}
+                    onClick={() => setEditAssignee(true)}
+                  >
+                    Belum ada assignee, klik untuk tambah
+                  </Typography>
+                )}
+              </Stack>
+            </Stack>
+            <Stack gap={2}>
+              <Typography variant="h5" fontWeight={'bold'}>
+                Lampiran (Attachments)
+              </Typography>
+              <Stack gap={2}>
+                <Typography variant="body2">Belum ada lampiran</Typography>
                 <Button
-                  type="button"
+                  component="label"
+                  role={undefined}
                   variant="outlined"
-                  onClick={() => setEditDescription(false)}
-                  disabled={isLoading}
+                  tabIndex={-1}
+                  startIcon={<CloudUpload />}
+                  size="large"
                 >
-                  Batal
+                  Upload files
+                  <input hidden multiple type="file" />
                 </Button>
               </Stack>
-            </Box>
-          ) : (
-            <Typography
-              component={'a'}
-              variant="body2"
-              sx={{
-                display: 'block',
-                ':hover': {
-                  background: colors.grey[100],
-                  cursor: 'pointer',
-                  p: 1,
-                  borderRadius: 1,
-                },
-              }}
-              onClick={() => setEditDescription(true)}
-            >
-              {taskDetailData.description ||
-                'Belum ada keterangan, klik untuk tambah'}
-            </Typography>
-          )}
-        </Stack>
-        <Stack flex={1} width={'50%'} gap={2}>
-          <Stack gap={2}>
-            <Typography variant="h5" fontWeight={'bold'}>
-              Deadline
-            </Typography>
-            <Stack>
-              {editDueDate ? (
-                <Box component={'form'} onSubmit={handleSubmit(onSubmit)}>
-                  <DatePicker
-                    control={control}
-                    name={'due_date'}
-                    fullWidth
-                    disabled={isLoading}
-                    maxDate={dayjs(detailProjectData.due_date)}
-                  />
-                  <Stack direction={'row'} justifyContent={'flex-end'} gap={1}>
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      disabled={isLoading}
-                      loading={isLoading}
-                    >
-                      Simpan
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="outlined"
-                      onClick={() => setEditDueDate(false)}
-                      disabled={isLoading}
-                    >
-                      Batal
-                    </Button>
-                  </Stack>
-                </Box>
-              ) : (
-                <Typography
-                  variant="body2"
-                  sx={{
-                    display: 'block',
-                    ':hover': {
-                      background: colors.grey[100],
-                      cursor: 'pointer',
-                      p: 1,
-                      borderRadius: 1,
-                    },
-                  }}
-                  onClick={() => setEditDueDate(true)}
-                >
-                  Belum ada deadline, klik untuk tambah
-                </Typography>
-              )}
-            </Stack>
-          </Stack>
-          <Stack gap={2}>
-            <Typography variant="h5" fontWeight={'bold'}>
-              Assignee
-            </Typography>
-            <Stack>
-              {editAssignee ? (
-                <Box
-                  component={'form'}
-                  onSubmit={handleSubmitAssignee(onSubmitAssignee)}
-                >
-                  <Select
-                    control={controlFormAssignee}
-                    label={'Pilih member'}
-                    name={'assignees'}
-                    options={detailProjectContext.members.map((member) => ({
-                      label: member.email,
-                      value: member.public_id,
-                    }))}
-                    multiple
-                  />
-                  <Stack
-                    mt={1}
-                    direction={'row'}
-                    justifyContent={'flex-end'}
-                    gap={1}
-                  >
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      disabled={isLoading}
-                      loading={isLoading}
-                    >
-                      Simpan
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="outlined"
-                      onClick={() => setEditAssignee(false)}
-                      disabled={isLoading}
-                    >
-                      Batal
-                    </Button>
-                  </Stack>
-                </Box>
-              ) : (
-                <Typography
-                  variant="body2"
-                  sx={{
-                    display: 'block',
-                    ':hover': {
-                      background: colors.grey[100],
-                      cursor: 'pointer',
-                      p: 1,
-                      borderRadius: 1,
-                    },
-                  }}
-                  onClick={() => setEditAssignee(true)}
-                >
-                  Belum ada assignee, klik untuk tambah
-                </Typography>
-              )}
-            </Stack>
-          </Stack>
-          <Stack gap={2}>
-            <Typography variant="h5" fontWeight={'bold'}>
-              Lampiran (Attachments)
-            </Typography>
-            <Stack gap={2}>
-              <Typography variant="body2">Belum ada lampiran</Typography>
-              <Button
-                component="label"
-                role={undefined}
-                variant="outlined"
-                tabIndex={-1}
-                startIcon={<CloudUpload />}
-                size="large"
-              >
-                Upload files
-                <input hidden multiple type="file" />
-              </Button>
             </Stack>
           </Stack>
         </Stack>
-      </Stack>
+        <Stack sx={{
+          position: 'sticky',
+          bottom: 0,
+          background: 'white',
+          py: 1,
+          px: 2,
+          borderTop: `1px solid ${colors.grey[300]}`,
+        }} direction={'row'} justifyContent={'flex-end'} gap={1}>
+          <Button startIcon={<Delete />} variant="outlined" color='error' onClick={handleClose} disabled={isLoading}>
+            Hapus
+          </Button>
+          <Button variant="outlined" onClick={handleClose} disabled={isLoading}>
+            Tutup
+          </Button>
+        </Stack>
+      </Box>
     </Modal>
   );
 };
