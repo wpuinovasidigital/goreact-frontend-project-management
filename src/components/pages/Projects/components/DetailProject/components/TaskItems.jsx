@@ -7,8 +7,8 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { DRAG_CARD } from '@/utils/constants';
-import useDetailProjectContext from '../../hooks/useDetailProjectContext';
-import ModalTaskDetail from '../../../Modals/ModalTaskDetail';
+import useDetailProjectContext from '../hooks/useDetailProjectContext';
+import ModalTaskDetail from '../../Modals/ModalTaskDetail/ModalTaskDetail';
 
 export const TaskSortableItem = ({ id, item, listId }) => {
   const detailProjectContext = useDetailProjectContext();
@@ -61,22 +61,25 @@ export const TaskSortableItem = ({ id, item, listId }) => {
       >
         <Stack
           sx={{
-            height: 80,
+            minHeight: 80,
             justifyContent: 'space-between',
             p: 1,
           }}
+          gap={2}
         >
           <Typography
             variant="body2"
             fontWeight={'bold'}
             flex={1}
-            sx={{
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              display: '-webkit-box',
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical',
-            }}
+            sx={
+              {
+                // overflow: 'hidden',
+                // textOverflow: 'ellipsis',
+                // display: '-webkit-box',
+                // WebkitLineClamp: 2,
+                // WebkitBoxOrient: 'vertical',
+              }
+            }
           >
             {item.title}
           </Typography>

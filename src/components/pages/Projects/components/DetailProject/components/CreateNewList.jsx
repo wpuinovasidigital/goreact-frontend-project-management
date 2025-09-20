@@ -7,7 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import services from '@/services';
 import { useLoaderData } from 'react-router';
-import useDetailProjectContext from '../../hooks/useDetailProjectContext';
+import useDetailProjectContext from '../hooks/useDetailProjectContext';
 
 const createListSchema = Yup.object({
   title: Yup.string().required(),
@@ -90,9 +90,6 @@ const CreateNewList = () => {
           variant="contained"
           onClick={handleOpenFormCreateList}
           disableElevation
-          sx={{
-            mt: 1,
-          }}
         >
           Buat daftar tugas
         </Button>

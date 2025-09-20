@@ -84,7 +84,7 @@ const ModalAddNewProject = ({ open, handleClose }) => {
           <Button type="submit" variant="contained">
             Simpan
           </Button>
-          <Button type="button" variant="outlined">
+          <Button type="button" variant="outlined" onClick={handleClose}>
             Batalkan
           </Button>
         </Stack>

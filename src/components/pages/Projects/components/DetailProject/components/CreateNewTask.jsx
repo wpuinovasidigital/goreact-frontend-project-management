@@ -7,7 +7,7 @@ import TextField from '@/components/ui/Forms/TextField';
 import { useMemo, useState } from 'react';
 import services from '@/services';
 import { AddCircle } from '@mui/icons-material';
-import useDetailProjectContext from '../../hooks/useDetailProjectContext';
+import useDetailProjectContext from '../hooks/useDetailProjectContext';
 
 const createNewTaskSchema = Yup.object({
   title: Yup.string().required(),

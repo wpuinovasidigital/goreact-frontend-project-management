@@ -1,5 +1,5 @@
 import Modal from '@/components/ui/Modal';
-import useDetailProjectContext from '../DetailProject/hooks/useDetailProjectContext';
+import useDetailProjectContext from '../../DetailProject/hooks/useDetailProjectContext';
 import { Box, Button, colors, Stack, Typography } from '@mui/material';
 import services from '@/services';
 import { useCallback, useEffect, useState } from 'react';
@@ -8,8 +8,10 @@ import TextField from '@/components/ui/Forms/TextField';
 import DatePicker from '@/components/ui/Forms/DatePicker';
 import dayjs from 'dayjs';
 import { CloudUpload } from '@mui/icons-material';
+import { useLoaderData } from 'react-router';
 
 const ModalTaskDetail = () => {
+  const detailProjectData = useLoaderData();
   const detailProjectContext = useDetailProjectContext();
   const taskDetail = detailProjectContext.taskDetail;
 
@@ -20,7 +22,7 @@ const ModalTaskDetail = () => {
   const { control, handleSubmit } = useForm({
     defaultValues: {
       description: taskDetail.description || '',
-      due_date: taskDetail.due_date || dayjs().add(1, 'day'),
+      due_date: dayjs(taskDetail.due_date) || dayjs().add(1, 'day'),
     },
   });
 
@@ -123,6 +125,7 @@ const ModalTaskDetail = () => {
                     name={'due_date'}
                     fullWidth
                     disabled={isLoading}
+                    maxDate={dayjs(detailProjectData.due_date)}
                   />
                   <Stack direction={'row'} justifyContent={'flex-end'} gap={1}>
                     <Button
@@ -174,7 +177,7 @@ const ModalTaskDetail = () => {
                 variant="outlined"
                 tabIndex={-1}
                 startIcon={<CloudUpload />}
-                size='large'
+                size="large"
               >
                 Upload files
                 <input hidden multiple type="file" />

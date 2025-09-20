@@ -27,6 +27,10 @@ const defaultState = {
   setIsOpenTaskDetail() {},
   taskDetail: {},
   setTaskDetail() {},
+  isOpenModalAddNewMember: false,
+  setIsOpenModalAddNewMember() {},
+  members: [],
+  setMembers() {}
 };
 
 export const DetailProjectContext = createContext(defaultState);
@@ -40,6 +44,8 @@ const DetailProjectProvider = ({ children }) => {
   const [isOver, setIsOver] = useState(false);
   const [isOpenTaskDetail, setIsOpenTaskDetail] = useState(false);
   const [taskDetail, setTaskDetail] = useState({});
+  const [isOpenModalAddNewMember, setIsOpenModalAddNewMember] = useState(false);
+  const [members, setMembers] = useState([]);
 
   const [isLoadingBoardLists, setLoadingBoardLists] = useState(false);
   const [boardListData, setBoardListData] = useState([]);
@@ -142,7 +148,6 @@ const DetailProjectProvider = ({ children }) => {
           );
           // await fetchBoardLists();
         } else {
-          console.log('update card position', updateTaskItemPosition);
           const { isSameList, active, over } = updateTaskItemPosition;
           if (isSameList) {
             // Move in the same list
@@ -185,11 +190,21 @@ const DetailProjectProvider = ({ children }) => {
               });
             });
           }
+          await fetchBoardLists();
         }
       }
     };
     fetchUpdateTaskItemPosition();
   }, [updateTaskItemPosition]);
+
+  const fetchBoardMembers = async () => {
+    const response = await services.boards.getMembers(detailProjectData.public_id);
+    setMembers(response.data.data);
+  }
+
+  useEffect(() => {
+    fetchBoardMembers();
+  }, [])
 
   return (
     <DetailProjectContext.Provider
@@ -203,6 +218,8 @@ const DetailProjectProvider = ({ children }) => {
         getProjectInitials,
         isOpenTaskDetail,
         taskDetail,
+        isOpenModalAddNewMember,
+        members,
 
         getTaskItemsByListId,
         setUpdateTaskItemPosition,
@@ -212,6 +229,8 @@ const DetailProjectProvider = ({ children }) => {
         setIsOver,
         setIsOpenTaskDetail,
         setTaskDetail,
+        setIsOpenModalAddNewMember,
+        fetchBoardMembers
       }}
     >
       {children}

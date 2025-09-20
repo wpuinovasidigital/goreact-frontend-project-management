@@ -22,6 +22,14 @@ const boards = {
   async updateListsPosition(boardId, data) {
     return network.put(`/api/v1/boards/${boardId}/positions`, data);
   },
+
+  async addMember(boardId, userIds) {
+    return network.post(`/api/v1/boards/${boardId}/members`, userIds);
+  },
+
+  async getMembers(boardId) {
+    return network.get(`/api/v1/boards/${boardId}/members`);
+  },
 };
 
 export default boards;

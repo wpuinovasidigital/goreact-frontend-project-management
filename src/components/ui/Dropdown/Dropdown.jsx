@@ -17,6 +17,9 @@ const Dropdown = ({ options, icon }) => {
         {options?.map((option, index) => (
           <MenuItem
             key={index}
+            sx={{
+              color: option.color ? option.color : 'text.primary',
+            }}
             onClick={() => {
               option.onClick();
               handleClose();
