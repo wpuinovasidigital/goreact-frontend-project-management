@@ -1,46 +1,18 @@
-import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Paper, Stack } from '@mui/material';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { useLoaderData } from 'react-router';
-import * as Yup from 'yup';
-
-import useDetailProjectContext from '../hooks/useDetailProjectContext';
-
 import TextField from '@/components/ui/Forms/TextField';
-import services from '@/services';
-import { Add, PlusOneRounded } from '@mui/icons-material';
-
-const createListSchema = Yup.object({
-  title: Yup.string().required(),
-});
+import { PlusOneRounded } from '@mui/icons-material';
+import useCreateNewList from '../hooks/useCreateNewList';
 
 const CreateNewList = () => {
-  const detailProjectData = useLoaderData();
-  const detailProjectContext = useDetailProjectContext();
-
-  const [isLoadingCreateList, setLoadingCreateList] = useState(false);
-  const [showFormCreateList, setShowFormCreateList] = useState(false);
-
-  const { control, handleSubmit, reset } = useForm({
-    defaultValues: {
-      title: '',
-      board_public_id: detailProjectData.public_id,
-    },
-    resolver: yupResolver(createListSchema),
-  });
-
-  const handleOpenFormCreateList = () => setShowFormCreateList(true);
-  const handleCloseFormCreateList = () => setShowFormCreateList(false);
-
-  const onSubmitCreateList = async (values) => {
-    setLoadingCreateList(true);
-    await services.lists.create(values);
-    setLoadingCreateList(false);
-    reset();
-    handleCloseFormCreateList();
-    await detailProjectContext.fetchBoardLists();
-  };
+  const {
+    isLoadingCreateList,
+    showFormCreateList,
+    control,
+    handleSubmit,
+    handleOpenFormCreateList,
+    handleCloseFormCreateList,
+    onSubmitCreateList,
+  } = useCreateNewList();
   return (
     <Box
       sx={{

@@ -1,5 +1,3 @@
-import { useDroppable } from '@dnd-kit/core';
-import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { DeleteForever } from '@mui/icons-material';
 import {
@@ -10,57 +8,32 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-
-import useDetailProjectContext from '../hooks/useDetailProjectContext';
-
 import CreateNewTask from './CreateNewTask';
 import TaskItems from './TaskItems';
 
-import services from '@/services';
-import { DRAG_CARD, DRAG_LIST } from '@/utils/constants';
-import { useEffect } from 'react';
+import useListSortableItem from '../hooks/useListSortableItem';
+import { DRAG_CARD } from '@/utils/constants';
 
 const ListSortableItem = ({ id, item }) => {
-  const detailProjectContext = useDetailProjectContext();
-
-  const taskItems = detailProjectContext.getTaskItemsByListId(item.public_id);
-
   const {
-    setNodeRef: setNodeRefDroppable,
+    taskItems,
     isOver,
     active,
     over,
-  } = useDroppable({
-    id,
-    data: {
-      ...item,
-      type: DRAG_LIST,
-    },
-  });
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({
-      id,
-      data: {
-        ...item,
-        type: DRAG_LIST,
-      },
-    });
-
-  const style = {
-    transform: CSS.Translate.toString(transform),
+    setNodeRefDroppable,
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
     transition,
-  };
-
-  const handleDeleteList = (listId) => async (e) => {
-    await services.lists.remove(listId);
-    await detailProjectContext.fetchBoardLists();
-  };
+    handleDeleteList,
+  } = useListSortableItem({ id, item });
 
   return (
     <Box
       sx={{
-        ...style,
-
+        transform: CSS.Translate.toString(transform),
+        transition,
         flexBasis: 300,
         flexShrink: 0,
         overflowX: 'hidden',
@@ -133,34 +106,36 @@ const ListSortableItem = ({ id, item }) => {
           },
         }}
       >
-        {active && active.data.current.list_public_id !== item.public_id && (
-          <Box px={1} pt={1} position={'absolute'} width={'100%'} zIndex={1}>
-            <Paper
-              elevation={0}
-              sx={{
-                p: 1,
-                bgcolor: colors.blue[50],
-                borderStyle: 'dashed',
-                borderColor: colors.blue[200],
-              }}
-            >
-              <Stack
-                sx={{ height: '80vh' }}
-                justifyContent={'center'}
-                alignItems={'center'}
-                gap={1}
+        {active &&
+          active.data.current.list_public_id !== item.public_id &&
+          active.data.current.type === DRAG_CARD && (
+            <Box px={1} pt={1} position={'absolute'} width={'100%'} zIndex={1}>
+              <Paper
+                elevation={0}
+                sx={{
+                  p: 1,
+                  bgcolor: colors.blue[50],
+                  borderStyle: 'dashed',
+                  borderColor: colors.blue[200],
+                }}
               >
-                <Typography
-                  variant="body1"
-                  fontWeight={'bold'}
-                  color={colors.blue[800]}
+                <Stack
+                  sx={{ height: 800 }}
+                  justifyContent={'center'}
+                  alignItems={'center'}
+                  gap={1}
                 >
-                  {item.title}
-                </Typography>
-              </Stack>
-            </Paper>
-          </Box>
-        )}
+                  <Typography
+                    variant="body1"
+                    fontWeight={'bold'}
+                    color={colors.blue[800]}
+                  >
+                    {item.title}
+                  </Typography>
+                </Stack>
+              </Paper>
+            </Box>
+          )}
         <TaskItems
           activeOverItem={{
             active: active?.data.current,

@@ -1,12 +1,9 @@
 import { GroupAdd } from '@mui/icons-material';
 import { AvatarGroup, Button, Stack } from '@mui/material';
-import { useEffect, useState } from 'react';
-import { useLoaderData } from 'react-router';
 
 import useDetailProjectContext from '../hooks/useDetailProjectContext';
 
 import Avatar from '@/components/ui/Avatar';
-import services from '@/services';
 
 const ProjectMembers = () => {
   const { members, setIsOpenModalAddNewMember } = useDetailProjectContext();

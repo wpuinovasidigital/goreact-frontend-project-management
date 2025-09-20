@@ -12,44 +12,32 @@ import ModalTaskDetail from '../../Modals/ModalTaskDetail/ModalTaskDetail';
 import useDetailProjectContext from '../hooks/useDetailProjectContext';
 
 import { DRAG_CARD } from '@/utils/constants';
+import useTaskItems from '../hooks/useTaskItems';
 
 export const TaskSortableItem = ({ id, item, listId }) => {
-  const [, setSearchParams] = useSearchParams();
-  const detailProjectContext = useDetailProjectContext();
   const {
+    detailProjectContext,
+    isDragging,
     attributes,
     listeners,
     setNodeRef,
     transform,
     transition,
-    isDragging,
-  } = useSortable({
+    handleClickTaskItem,
+  } = useTaskItems({
     id,
-    data: {
-      ...item,
-      listId,
-      type: DRAG_CARD,
-    },
+    item,
+    listId,
   });
-
-  const style = {
-    transform: CSS.Translate.toString(transform),
-    transition,
-    opacity: isDragging ? 0.5 : 1,
-  };
-
-  const handleClickTaskItem = (e) => {
-    e.stopPropagation();
-    detailProjectContext.setIsOpenTaskDetail(true);
-    setSearchParams({ taskId: item.public_id });
-  };
 
   return (
     <Box ref={setNodeRef} key={item.public_id}>
       <Paper
         elevation={2}
         sx={{
-          ...style,
+          transform: CSS.Translate.toString(transform),
+          transition,
+          opacity: isDragging ? 0.5 : 1,
           cursor: 'pointer',
           ':hover': {
             background: colors.blue[50],

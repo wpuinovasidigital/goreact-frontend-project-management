@@ -1,10 +1,7 @@
 import {
-  closestCenter,
-  closestCorners,
   defaultDropAnimationSideEffects,
   DndContext,
   DragOverlay,
-  KeyboardSensor,
   MouseSensor,
   PointerSensor,
   useSensor,
@@ -13,9 +10,8 @@ import {
 import {
   horizontalListSortingStrategy,
   SortableContext,
-  sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable';
-import { Box, LinearProgress, Modal, Stack } from '@mui/material';
+import { Stack } from '@mui/material';
 import { useMemo, useState } from 'react';
 import { useLoaderData } from 'react-router';
 
@@ -26,62 +22,25 @@ import useDetailProjectContext from '../hooks/useDetailProjectContext';
 
 import CreateNewList from './CreateNewList';
 import ListSortableItem from './ListSortableItem';
-import ProjectDuration from './ProjectInfo';
 import ProjectInfo from './ProjectInfo';
 import { TaskSortableItem } from './TaskItems';
 
 import SidebarLayout from '@/components/layouts/SidebarLayout';
 import { DRAG_CARD, DRAG_LIST } from '@/utils/constants';
+import useDetailProjectContainer from '../hooks/useDetailProjectContainer';
 
 const DetailProjectContainer = () => {
-  const detailProjectData = useLoaderData();
-  const detailProjectContext = useDetailProjectContext();
-
-  const boardListData = detailProjectContext.boardListData;
-
-  const [activeDragItem, setActiveDragItem] = useState(null);
-
-  const mouseSensor = useSensor(MouseSensor, {
-    activationConstraint: {
-      distance: 10,
-    },
-  });
-
-  const pointerSensor = useSensor(PointerSensor, {
-    activationConstraint: {
-      distance: 5,
-    },
-  });
-
-  const sensors = useSensors(mouseSensor, pointerSensor);
-
-  const handleDragStart = (event) =>
-    setActiveDragItem(event.active.data.current);
-  const handleDragEnd = async (event) => {
-    const { active, over } = event;
-    setActiveDragItem(null);
-
-    if (!over) return;
-
-    // handle moving between lists
-    const isDragListType =
-      active.data.current.type === DRAG_LIST &&
-      over.data.current.type === DRAG_LIST;
-
-    detailProjectContext.setUpdateTaskItemPosition({
-      active: active.data.current,
-      over: over.data.current,
-      isDragListType,
-      isSameList:
-        active.data.current.list_internal_id ===
-        (over.data.current.list_internal_id || over.data.current.internal_id),
-    });
-  };
-  const handleDragCancel = () => setActiveDragItem(null);
-
-  const boardListDataMapPublicId = useMemo(() => {
-    return boardListData.map((item) => item.public_id);
-  }, [boardListData]);
+  const {
+    detailProjectData,
+    detailProjectContext,
+    boardListData,
+    boardListDataMapPublicId,
+    activeDragItem,
+    sensors,
+    handleDragStart,
+    handleDragEnd,
+    handleDragCancel,
+  } = useDetailProjectContainer();
 
   const renderDragOverlay = () => {
     if (activeDragItem && activeDragItem?.type === DRAG_LIST) {
