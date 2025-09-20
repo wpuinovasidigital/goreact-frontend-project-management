@@ -33,7 +33,7 @@ const ProjectDuration = () => {
               label: 'Ubah detail proyek',
               onClick() {
                 detailProjectContext.setIsOpenModalEditProject(true);
-              }
+              },
             },
             {
               label: 'Selesaikan proyek ini',

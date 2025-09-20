@@ -1,10 +1,14 @@
 import network from '@/utils/network';
+import session from '@/utils/session';
 
 const boards = {
   async myBoards(params) {
-    return network.get('/api/v1/boards', {
-      params,
-    });
+    return network.get(
+      session.isAdmin() ? '/api/v1/boards' : '/api/v1/boards/my',
+      {
+        params,
+      },
+    );
   },
 
   async create(data) {

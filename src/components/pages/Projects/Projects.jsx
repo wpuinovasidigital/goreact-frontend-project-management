@@ -12,8 +12,11 @@ import { useForm, useWatch } from 'react-hook-form';
 import { useDebounce } from 'use-debounce';
 import Pagination from '@/components/ui/Pagination';
 import ModalAddNewProject from './components/Modals/ModalAddNewProject';
+import session from '@/utils/session';
 
 const Projects = () => {
+  
+
   const [isLoading, setLoading] = useState(false);
   const [boardsData, setBoardsData] = useState([]);
   const [boardsMeta, setBoardsMeta] = useState({});
@@ -80,15 +83,17 @@ const Projects = () => {
               size="small"
             />
           </Box>
-          <Box>
-            <Button
-              type="button"
-              variant="contained"
-              onClick={handleOpenAddNewProject}
-            >
-              Buat proyek baru
-            </Button>
-          </Box>
+          {session.isAdmin() && (
+            <Box>
+              <Button
+                type="button"
+                variant="contained"
+                onClick={handleOpenAddNewProject}
+              >
+                Buat proyek baru
+              </Button>
+            </Box>
+          )}
         </Stack>
 
         <Table

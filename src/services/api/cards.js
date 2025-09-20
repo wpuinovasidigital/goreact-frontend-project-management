@@ -11,8 +11,10 @@ const cards = {
     return network.get(`/api/v1/cards/${cardId}`);
   },
   async addAssignees(card, assignees) {
-    return network.post(`/api/v1/cards/${card}/assignees`, { user_id: assignees });
-  }
+    return network.post(`/api/v1/cards/${card}/assignees`, {
+      user_id: assignees,
+    });
+  },
 };
 
 export default cards;

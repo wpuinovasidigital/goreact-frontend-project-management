@@ -32,7 +32,7 @@ const defaultState = {
   members: [],
   setMembers() {},
   isOpenModalEditProject: false,
-  setIsOpenModalEditProject() {}
+  setIsOpenModalEditProject() {},
 };
 
 export const DetailProjectContext = createContext(defaultState);
@@ -237,7 +237,7 @@ const DetailProjectProvider = ({ children }) => {
         setTaskDetail,
         setIsOpenModalAddNewMember,
         fetchBoardMembers,
-        setIsOpenModalEditProject
+        setIsOpenModalEditProject,
       }}
     >
       {children}

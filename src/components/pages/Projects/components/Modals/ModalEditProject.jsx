@@ -21,7 +21,7 @@ const addNewProjectSchema = Yup.object({
 });
 
 const ModalEditProject = () => {
-  const {revalidate} = useRevalidator();
+  const { revalidate } = useRevalidator();
   const detailProjectData = useLoaderData();
   const detailProjectContext = useDetailProjectContext();
 
@@ -101,7 +101,7 @@ const ModalEditProject = () => {
   const handleClose = async () => {
     detailProjectContext.setIsOpenModalEditProject(false);
     await revalidate();
-  }
+  };
 
   return (
     <Modal

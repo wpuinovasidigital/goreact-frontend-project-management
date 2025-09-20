@@ -40,7 +40,6 @@ export const TaskSortableItem = ({ id, item, listId }) => {
     e.stopPropagation();
     detailProjectContext.setIsOpenTaskDetail(true);
     setSearchParams({ taskId: item.public_id });
-    
   };
 
   return (

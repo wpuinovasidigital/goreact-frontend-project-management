@@ -8,7 +8,12 @@ import TextField from '@/components/ui/Forms/TextField';
 import DatePicker from '@/components/ui/Forms/DatePicker';
 import dayjs from 'dayjs';
 import { CloudUpload } from '@mui/icons-material';
-import { useLoaderData, useNavigate, useParams, useSearchParams } from 'react-router';
+import {
+  useLoaderData,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from 'react-router';
 import Select from '@/components/ui/Forms/Select';
 
 const ModalTaskDetail = () => {
@@ -18,7 +23,7 @@ const ModalTaskDetail = () => {
   const detailProjectContext = useDetailProjectContext();
 
   const taskId = searchParams.get('taskId');
-  
+
   const fetchTaskDetail = async (taskId) => {
     const response = await services.cards.getDetail(taskId);
     setTaskDetailData(response.data.data);
@@ -36,11 +41,12 @@ const ModalTaskDetail = () => {
     },
   });
 
-  const { control: controlFormAssignee, handleSubmit: handleSubmitAssignee } = useForm({
-    defaultValues: {
-      assignees: [],
-    }
-  })
+  const { control: controlFormAssignee, handleSubmit: handleSubmitAssignee } =
+    useForm({
+      defaultValues: {
+        assignees: [],
+      },
+    });
 
   const onSubmitAssignee = async (values) => {
     setLoading(true);
@@ -48,7 +54,7 @@ const ModalTaskDetail = () => {
     setLoading(false);
     setEditAssignee(false);
     fetchTaskDetail(taskId);
-  }
+  };
 
   const onSubmit = async (values) => {
     setLoading(true);
@@ -202,8 +208,11 @@ const ModalTaskDetail = () => {
             </Typography>
             <Stack>
               {editAssignee ? (
-                <Box component={'form'} onSubmit={handleSubmitAssignee(onSubmitAssignee)}>
-                  <Select 
+                <Box
+                  component={'form'}
+                  onSubmit={handleSubmitAssignee(onSubmitAssignee)}
+                >
+                  <Select
                     control={controlFormAssignee}
                     label={'Pilih member'}
                     name={'assignees'}
@@ -213,7 +222,12 @@ const ModalTaskDetail = () => {
                     }))}
                     multiple
                   />
-                  <Stack mt={1} direction={'row'} justifyContent={'flex-end'} gap={1}>
+                  <Stack
+                    mt={1}
+                    direction={'row'}
+                    justifyContent={'flex-end'}
+                    gap={1}
+                  >
                     <Button
                       type="submit"
                       variant="contained"

@@ -19,6 +19,10 @@ const session = {
     const session = this.getSession();
     return session?.access_token ?? null;
   },
+  isAdmin() {
+    const session = this.getSession();
+    return session?.user?.role === 'admin';
+  },
 };
 
 export default session;
