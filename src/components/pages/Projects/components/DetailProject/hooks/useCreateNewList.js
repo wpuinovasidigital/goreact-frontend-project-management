@@ -36,6 +36,7 @@ const useCreateNewList = () => {
   const onSubmitCreateList = async (values) => {
     setLoadingCreateList(true);
     await services.lists.create(values);
+    handleCloseFormCreateList();
   };
 
   return {
