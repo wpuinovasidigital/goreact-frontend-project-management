@@ -6,9 +6,9 @@ import { useNavigate } from 'react-router';
 import * as Yup from 'yup';
 
 import AuthLayout from '@/components/layouts/AuthLayout';
+import Dialog from '@/components/ui/Dialog';
 import TextField from '@/components/ui/Forms/TextField';
 import services from '@/services';
-import Dialog from '@/components/ui/Dialog';
 
 const signUpSchema = Yup.object({
   name: Yup.string().required('Nama harus di isi'),

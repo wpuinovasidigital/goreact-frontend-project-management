@@ -1,4 +1,3 @@
-import services from '@/services';
 import { arrayMove } from '@dnd-kit/sortable';
 import {
   createContext,
@@ -8,6 +7,8 @@ import {
   useState,
 } from 'react';
 import { useLoaderData } from 'react-router';
+
+import services from '@/services';
 
 const defaultState = {
   activeDragItem: null,

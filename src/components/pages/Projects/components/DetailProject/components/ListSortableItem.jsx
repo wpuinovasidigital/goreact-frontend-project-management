@@ -1,7 +1,7 @@
 import { useDroppable } from '@dnd-kit/core';
-import useDetailProjectContext from '../hooks/useDetailProjectContext';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { DeleteForever } from '@mui/icons-material';
 import {
   Box,
   colors,
@@ -10,11 +10,14 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { DeleteForever } from '@mui/icons-material';
-import TaskItems, { TaskSortableItem } from './TaskItems';
+
+import useDetailProjectContext from '../hooks/useDetailProjectContext';
+
 import CreateNewTask from './CreateNewTask';
-import { DRAG_CARD, DRAG_LIST } from '@/utils/constants';
+import TaskItems, { TaskSortableItem } from './TaskItems';
+
 import services from '@/services';
+import { DRAG_CARD, DRAG_LIST } from '@/utils/constants';
 
 const ListSortableItem = ({ id, item }) => {
   const detailProjectContext = useDetailProjectContext();

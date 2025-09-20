@@ -1,15 +1,18 @@
-import { Box, colors, Paper, Stack, Typography } from '@mui/material';
-import { useMemo } from 'react';
 import {
   SortableContext,
   useSortable,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { DRAG_CARD } from '@/utils/constants';
-import useDetailProjectContext from '../hooks/useDetailProjectContext';
-import ModalTaskDetail from '../../Modals/ModalTaskDetail/ModalTaskDetail';
+import { Box, colors, Paper, Stack, Typography } from '@mui/material';
+import { useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
+
+import ModalTaskDetail from '../../Modals/ModalTaskDetail/ModalTaskDetail';
+import useDetailProjectContext from '../hooks/useDetailProjectContext';
+
+import { DRAG_CARD } from '@/utils/constants';
+
 
 export const TaskSortableItem = ({ id, item, listId }) => {
   const [searchParams, setSearchParams] = useSearchParams();

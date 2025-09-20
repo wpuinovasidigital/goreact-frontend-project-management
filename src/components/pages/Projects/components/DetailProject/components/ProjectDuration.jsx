@@ -1,9 +1,11 @@
-import Dropdown from '@/components/ui/Dropdown';
-import datetime from '@/utils/datetime';
 import { Settings } from '@mui/icons-material';
 import { Box, Stack, Typography } from '@mui/material';
 import { useLoaderData } from 'react-router';
+
 import useDetailProjectContext from '../hooks/useDetailProjectContext';
+
+import Dropdown from '@/components/ui/Dropdown';
+import datetime from '@/utils/datetime';
 
 const ProjectDuration = () => {
   const detailProjectData = useLoaderData();

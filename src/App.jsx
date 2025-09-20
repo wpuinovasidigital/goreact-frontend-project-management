@@ -10,9 +10,9 @@ import SignUp from './components/pages/Auth/SignUp';
 import Dashboard from './components/pages/Dashboard';
 import Projects from './components/pages/Projects';
 import DetailProject from './components/pages/Projects/components/DetailProject';
+import detailProjectLoader from './components/pages/Projects/components/DetailProject/DetailProject.loader';
 import Settings from './components/pages/Settings';
 import SnackbarProvider from './components/ui/Snackbar';
-import detailProjectLoader from './components/pages/Projects/components/DetailProject/DetailProject.loader';
 
 const theme = createTheme({
   typography: {

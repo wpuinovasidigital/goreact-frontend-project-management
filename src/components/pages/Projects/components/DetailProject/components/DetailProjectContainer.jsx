@@ -1,6 +1,3 @@
-import { useLoaderData } from 'react-router';
-import useDetailProjectContext from '../hooks/useDetailProjectContext';
-import { useMemo, useState } from 'react';
 import {
   defaultDropAnimationSideEffects,
   DndContext,
@@ -16,17 +13,25 @@ import {
   SortableContext,
   sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable';
-import ListSortableItem from './ListSortableItem';
-import { TaskSortableItem } from './TaskItems';
-import SidebarLayout from '@/components/layouts/SidebarLayout';
 import { Box, LinearProgress, Modal, Stack } from '@mui/material';
-import CreateNewList from './CreateNewList';
-import ModalTaskDetail from '../../Modals/ModalTaskDetail';
-import { DRAG_CARD, DRAG_LIST } from '@/utils/constants';
-import ProjectDuration from './ProjectInfo';
+import { useMemo, useState } from 'react';
+import { useLoaderData } from 'react-router';
+
 import ModalAddNewMember from '../../Modals/ModalAddNewMember';
-import ProjectInfo from './ProjectInfo';
 import ModalEditProject from '../../Modals/ModalEditProject';
+import ModalTaskDetail from '../../Modals/ModalTaskDetail';
+import useDetailProjectContext from '../hooks/useDetailProjectContext';
+
+import CreateNewList from './CreateNewList';
+import ListSortableItem from './ListSortableItem';
+import ProjectDuration from './ProjectInfo';
+import ProjectInfo from './ProjectInfo';
+import { TaskSortableItem } from './TaskItems';
+
+import SidebarLayout from '@/components/layouts/SidebarLayout';
+import { DRAG_CARD, DRAG_LIST } from '@/utils/constants';
+
+
 
 const DetailProjectContainer = () => {
   const detailProjectData = useLoaderData();

@@ -1,13 +1,18 @@
-import { Box, Button, Stack, Typography } from '@mui/material';
-import useDetailProjectContext from '../hooks/useDetailProjectContext';
-import datetime from '@/utils/datetime';
-import { useLoaderData } from 'react-router';
-import Dropdown from '@/components/ui/Dropdown';
 import { GroupAdd, Settings } from '@mui/icons-material';
-import services from '@/services';
+import { Box, Button, Stack, Typography } from '@mui/material';
 import { useEffect } from 'react';
-import ProjectMembers from './ProjectMembers';
+import { useLoaderData } from 'react-router';
+
+import useDetailProjectContext from '../hooks/useDetailProjectContext';
+
 import ProjectDuration from './ProjectDuration';
+import ProjectMembers from './ProjectMembers';
+
+import Dropdown from '@/components/ui/Dropdown';
+import services from '@/services';
+import datetime from '@/utils/datetime';
+
+
 
 const ProjectInfo = () => {
   const detailProjectData = useLoaderData();

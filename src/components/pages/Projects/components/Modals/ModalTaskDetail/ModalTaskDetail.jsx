@@ -1,20 +1,22 @@
-import Modal from '@/components/ui/Modal';
-import useDetailProjectContext from '../../DetailProject/hooks/useDetailProjectContext';
+import { CloudUpload } from '@mui/icons-material';
 import { Box, Button, colors, Stack, Typography } from '@mui/material';
-import services from '@/services';
+import dayjs from 'dayjs';
 import { use, useCallback, useEffect, useState } from 'react';
 import { set, useForm } from 'react-hook-form';
-import TextField from '@/components/ui/Forms/TextField';
-import DatePicker from '@/components/ui/Forms/DatePicker';
-import dayjs from 'dayjs';
-import { CloudUpload } from '@mui/icons-material';
 import {
   useLoaderData,
   useNavigate,
   useParams,
   useSearchParams,
 } from 'react-router';
+
+import useDetailProjectContext from '../../DetailProject/hooks/useDetailProjectContext';
+
+import DatePicker from '@/components/ui/Forms/DatePicker';
 import Select from '@/components/ui/Forms/Select';
+import TextField from '@/components/ui/Forms/TextField';
+import Modal from '@/components/ui/Modal';
+import services from '@/services';
 
 const ModalTaskDetail = () => {
   const [searchParams, setSearchParams] = useSearchParams();
