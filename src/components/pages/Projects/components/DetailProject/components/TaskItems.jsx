@@ -9,8 +9,10 @@ import { CSS } from '@dnd-kit/utilities';
 import { DRAG_CARD } from '@/utils/constants';
 import useDetailProjectContext from '../hooks/useDetailProjectContext';
 import ModalTaskDetail from '../../Modals/ModalTaskDetail/ModalTaskDetail';
+import { useNavigate, useSearchParams } from 'react-router';
 
 export const TaskSortableItem = ({ id, item, listId }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const detailProjectContext = useDetailProjectContext();
   const {
     attributes,
@@ -37,11 +39,8 @@ export const TaskSortableItem = ({ id, item, listId }) => {
   const handleClickTaskItem = (e) => {
     e.stopPropagation();
     detailProjectContext.setIsOpenTaskDetail(true);
-    detailProjectContext.setTaskDetail({
-      ...item,
-      listId,
-      type: DRAG_CARD,
-    });
+    setSearchParams({ taskId: item.public_id });
+    
   };
 
   return (
@@ -106,30 +105,28 @@ const TaskItems = ({ listId }) => {
     }
 
     return (
-      <>
-        <Stack
-          gap={1}
-          p={1}
-          sx={{
-            overflowY: 'auto',
-            pb: 1,
-          }}
+      <Stack
+        gap={1}
+        p={1}
+        sx={{
+          overflowY: 'auto',
+          pb: 1,
+        }}
+      >
+        <SortableContext
+          items={taskItemDataIds}
+          strategy={verticalListSortingStrategy}
         >
-          <SortableContext
-            items={taskItemDataIds}
-            strategy={verticalListSortingStrategy}
-          >
-            {taskItemsData?.map((item) => (
-              <TaskSortableItem
-                key={item.public_id}
-                id={item.public_id}
-                item={item}
-                listId={listId}
-              />
-            ))}
-          </SortableContext>
-        </Stack>
-      </>
+          {taskItemsData?.map((item) => (
+            <TaskSortableItem
+              key={item.public_id}
+              id={item.public_id}
+              item={item}
+              listId={listId}
+            />
+          ))}
+        </SortableContext>
+      </Stack>
     );
   };
 

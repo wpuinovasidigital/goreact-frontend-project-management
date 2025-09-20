@@ -3,9 +3,12 @@ import datetime from '@/utils/datetime';
 import { Settings } from '@mui/icons-material';
 import { Box, Stack, Typography } from '@mui/material';
 import { useLoaderData } from 'react-router';
+import useDetailProjectContext from '../hooks/useDetailProjectContext';
 
 const ProjectDuration = () => {
   const detailProjectData = useLoaderData();
+  const detailProjectContext = useDetailProjectContext();
+
   return (
     <Stack direction={'row'} alignItems={'center'} gap={1}>
       <Stack direction={'column'} alignItems={'flex-end'}>
@@ -27,13 +30,14 @@ const ProjectDuration = () => {
           icon={<Settings />}
           options={[
             {
-              label: 'Ubah tanggal deadline',
-              value: 'change_due_date',
+              label: 'Ubah detail proyek',
+              onClick() {
+                detailProjectContext.setIsOpenModalEditProject(true);
+              }
             },
             {
-              label: 'Hapus proyek ini',
-              value: 'delete_this_project',
-              color: 'text.error',
+              label: 'Selesaikan proyek ini',
+              value: 'complete_this_project',
             },
           ]}
         />

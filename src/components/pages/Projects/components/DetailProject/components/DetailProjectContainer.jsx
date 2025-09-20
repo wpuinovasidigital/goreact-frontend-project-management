@@ -19,20 +19,20 @@ import {
 import ListSortableItem from './ListSortableItem';
 import { TaskSortableItem } from './TaskItems';
 import SidebarLayout from '@/components/layouts/SidebarLayout';
-import { Box, LinearProgress, Stack } from '@mui/material';
+import { Box, LinearProgress, Modal, Stack } from '@mui/material';
 import CreateNewList from './CreateNewList';
 import ModalTaskDetail from '../../Modals/ModalTaskDetail';
 import { DRAG_CARD, DRAG_LIST } from '@/utils/constants';
 import ProjectDuration from './ProjectInfo';
 import ModalAddNewMember from '../../Modals/ModalAddNewMember';
 import ProjectInfo from './ProjectInfo';
+import ModalEditProject from '../../Modals/ModalEditProject';
 
 const DetailProjectContainer = () => {
   const detailProjectData = useLoaderData();
   const detailProjectContext = useDetailProjectContext();
 
   const boardListData = detailProjectContext.boardListData;
-  const isLoadingBoardLists = detailProjectContext.isLoadingBoardLists;
 
   const [activeDragItem, setActiveDragItem] = useState(null);
 
@@ -170,6 +170,7 @@ const DetailProjectContainer = () => {
       </SidebarLayout>
       <ModalTaskDetail />
       <ModalAddNewMember />
+      <ModalEditProject />
     </>
   );
 };

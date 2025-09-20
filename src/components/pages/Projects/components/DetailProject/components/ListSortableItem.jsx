@@ -25,7 +25,6 @@ const ListSortableItem = ({ id, item }) => {
     setNodeRef: setNodeRefDroppable,
     isOver,
     active,
-    over,
   } = useDroppable({
     id,
     data: {
@@ -66,6 +65,8 @@ const ListSortableItem = ({ id, item }) => {
         background: colors.grey[50],
       }}
       ref={setNodeRef}
+      {...attributes}
+      {...listeners}
     >
       <Stack
         ref={setNodeRefDroppable}
@@ -79,8 +80,6 @@ const ListSortableItem = ({ id, item }) => {
           borderTopRightRadius: 1,
           borderTopLeftRadius: 1,
         }}
-        {...attributes}
-        {...listeners}
       >
         <Stack direction={'row'} alignItems={'center'} gap={1}>
           <Typography variant="body1" fontWeight={'bold'}>

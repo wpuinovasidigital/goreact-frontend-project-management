@@ -11,6 +11,10 @@ const boards = {
     return network.post('/api/v1/boards', data);
   },
 
+  async update(boardId, data) {
+    return network.put(`/api/v1/boards/${boardId}`, data);
+  },
+
   async detail(boardId) {
     return network.get(`/api/v1/boards/${boardId}`);
   },

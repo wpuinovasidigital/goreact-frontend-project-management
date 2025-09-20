@@ -30,7 +30,9 @@ const defaultState = {
   isOpenModalAddNewMember: false,
   setIsOpenModalAddNewMember() {},
   members: [],
-  setMembers() {}
+  setMembers() {},
+  isOpenModalEditProject: false,
+  setIsOpenModalEditProject() {}
 };
 
 export const DetailProjectContext = createContext(defaultState);
@@ -46,6 +48,7 @@ const DetailProjectProvider = ({ children }) => {
   const [taskDetail, setTaskDetail] = useState({});
   const [isOpenModalAddNewMember, setIsOpenModalAddNewMember] = useState(false);
   const [members, setMembers] = useState([]);
+  const [isOpenModalEditProject, setIsOpenModalEditProject] = useState(false);
 
   const [isLoadingBoardLists, setLoadingBoardLists] = useState(false);
   const [boardListData, setBoardListData] = useState([]);
@@ -198,13 +201,15 @@ const DetailProjectProvider = ({ children }) => {
   }, [updateTaskItemPosition]);
 
   const fetchBoardMembers = async () => {
-    const response = await services.boards.getMembers(detailProjectData.public_id);
+    const response = await services.boards.getMembers(
+      detailProjectData.public_id,
+    );
     setMembers(response.data.data);
-  }
+  };
 
   useEffect(() => {
     fetchBoardMembers();
-  }, [])
+  }, []);
 
   return (
     <DetailProjectContext.Provider
@@ -220,6 +225,7 @@ const DetailProjectProvider = ({ children }) => {
         taskDetail,
         isOpenModalAddNewMember,
         members,
+        isOpenModalEditProject,
 
         getTaskItemsByListId,
         setUpdateTaskItemPosition,
@@ -230,7 +236,8 @@ const DetailProjectProvider = ({ children }) => {
         setIsOpenTaskDetail,
         setTaskDetail,
         setIsOpenModalAddNewMember,
-        fetchBoardMembers
+        fetchBoardMembers,
+        setIsOpenModalEditProject
       }}
     >
       {children}

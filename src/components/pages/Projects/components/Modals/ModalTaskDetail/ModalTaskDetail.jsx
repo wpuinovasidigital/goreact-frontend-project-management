@@ -2,51 +2,83 @@ import Modal from '@/components/ui/Modal';
 import useDetailProjectContext from '../../DetailProject/hooks/useDetailProjectContext';
 import { Box, Button, colors, Stack, Typography } from '@mui/material';
 import services from '@/services';
-import { useCallback, useEffect, useState } from 'react';
+import { use, useCallback, useEffect, useState } from 'react';
 import { set, useForm } from 'react-hook-form';
 import TextField from '@/components/ui/Forms/TextField';
 import DatePicker from '@/components/ui/Forms/DatePicker';
 import dayjs from 'dayjs';
 import { CloudUpload } from '@mui/icons-material';
-import { useLoaderData } from 'react-router';
+import { useLoaderData, useNavigate, useParams, useSearchParams } from 'react-router';
+import Select from '@/components/ui/Forms/Select';
 
 const ModalTaskDetail = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [taskDetailData, setTaskDetailData] = useState({});
   const detailProjectData = useLoaderData();
   const detailProjectContext = useDetailProjectContext();
-  const taskDetail = detailProjectContext.taskDetail;
+
+  const taskId = searchParams.get('taskId');
+  
+  const fetchTaskDetail = async (taskId) => {
+    const response = await services.cards.getDetail(taskId);
+    setTaskDetailData(response.data.data);
+  };
 
   const [isLoading, setLoading] = useState(false);
   const [editDescription, setEditDescription] = useState(false);
   const [editDueDate, setEditDueDate] = useState(false);
+  const [editAssignee, setEditAssignee] = useState(false);
 
   const { control, handleSubmit } = useForm({
     defaultValues: {
-      description: taskDetail.description || '',
-      due_date: dayjs(taskDetail.due_date) || dayjs().add(1, 'day'),
+      description: taskDetailData.description || '',
+      due_date: dayjs(taskDetailData.due_date) || dayjs().add(1, 'day'),
     },
   });
 
+  const { control: controlFormAssignee, handleSubmit: handleSubmitAssignee } = useForm({
+    defaultValues: {
+      assignees: [],
+    }
+  })
+
+  const onSubmitAssignee = async (values) => {
+    setLoading(true);
+    await services.cards.addAssignees(taskId, values.assignees);
+    setLoading(false);
+    setEditAssignee(false);
+    fetchTaskDetail(taskId);
+  }
+
   const onSubmit = async (values) => {
     setLoading(true);
-    await services.cards.update(taskDetail.public_id, {
-      list_id: taskDetail.listId,
-      title: taskDetail.title,
-      due_date: values.due_date ?? taskDetail.due_date,
-      position: taskDetail.position,
-      description: values.description ?? taskDetail.description,
+    await services.cards.update(taskDetailData.public_id, {
+      list_id: taskDetailData.listId,
+      title: taskDetailData.title,
+      due_date: values.due_date ?? taskDetailData.due_date,
+      position: taskDetailData.position,
+      description: values.description ?? taskDetailData.description,
     });
     setLoading(false);
     setEditDescription(false);
     setEditDueDate(false);
-    await detailProjectContext.fetchBoardLists();
   };
+
+  const handleClose = useCallback(() => {
+    setSearchParams({});
+  }, [taskDetailData]);
+
+  useEffect(() => {
+    if (taskId && detailProjectContext.isOpenTaskDetail) {
+      fetchTaskDetail(taskId);
+    }
+  }, [taskId, detailProjectContext.isOpenTaskDetail]);
 
   return (
     <Modal
-      open={detailProjectContext.isOpenTaskDetail}
-      //   open={true}
-      handleClose={() => detailProjectContext.setIsOpenTaskDetail(false)}
-      title={taskDetail.title || 'Detail Tugas'}
+      open={taskId && detailProjectContext.isOpenTaskDetail}
+      handleClose={handleClose}
+      title={taskDetailData?.title || 'Detail Tugas'}
     >
       <Stack
         width={1000}
@@ -58,10 +90,9 @@ const ModalTaskDetail = () => {
         justifyContent={'space-between'}
         p={2}
       >
-        <Stack flex={1} gap={2}>
+        <Stack flex={1} width={'50%'} gap={2}>
           <Typography variant="h5" fontWeight={'bold'}>
-            {/* {taskDetail.title} */}
-            Keterangan
+            Deskripsi tugas
           </Typography>
           {editDescription ? (
             <Box component={'form'} onSubmit={handleSubmit(onSubmit)}>
@@ -107,12 +138,12 @@ const ModalTaskDetail = () => {
               }}
               onClick={() => setEditDescription(true)}
             >
-              {taskDetail.description ||
+              {taskDetailData.description ||
                 'Belum ada keterangan, klik untuk tambah'}
             </Typography>
           )}
         </Stack>
-        <Stack flex={1} gap={2}>
+        <Stack flex={1} width={'50%'} gap={2}>
           <Stack gap={2}>
             <Typography variant="h5" fontWeight={'bold'}>
               Deadline
@@ -161,6 +192,61 @@ const ModalTaskDetail = () => {
                   onClick={() => setEditDueDate(true)}
                 >
                   Belum ada deadline, klik untuk tambah
+                </Typography>
+              )}
+            </Stack>
+          </Stack>
+          <Stack gap={2}>
+            <Typography variant="h5" fontWeight={'bold'}>
+              Assignee
+            </Typography>
+            <Stack>
+              {editAssignee ? (
+                <Box component={'form'} onSubmit={handleSubmitAssignee(onSubmitAssignee)}>
+                  <Select 
+                    control={controlFormAssignee}
+                    label={'Pilih member'}
+                    name={'assignees'}
+                    options={detailProjectContext.members.map((member) => ({
+                      label: member.email,
+                      value: member.public_id,
+                    }))}
+                    multiple
+                  />
+                  <Stack mt={1} direction={'row'} justifyContent={'flex-end'} gap={1}>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      disabled={isLoading}
+                      loading={isLoading}
+                    >
+                      Simpan
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outlined"
+                      onClick={() => setEditAssignee(false)}
+                      disabled={isLoading}
+                    >
+                      Batal
+                    </Button>
+                  </Stack>
+                </Box>
+              ) : (
+                <Typography
+                  variant="body2"
+                  sx={{
+                    display: 'block',
+                    ':hover': {
+                      background: colors.grey[100],
+                      cursor: 'pointer',
+                      p: 1,
+                      borderRadius: 1,
+                    },
+                  }}
+                  onClick={() => setEditAssignee(true)}
+                >
+                  Belum ada assignee, klik untuk tambah
                 </Typography>
               )}
             </Stack>

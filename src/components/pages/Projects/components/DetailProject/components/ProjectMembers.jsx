@@ -7,9 +7,7 @@ import { useEffect, useState } from 'react';
 import Avatar from '@/components/ui/Avatar';
 
 const ProjectMembers = () => {
-  
-  const {members, setIsOpenModalAddNewMember} = useDetailProjectContext();
-
+  const { members, setIsOpenModalAddNewMember } = useDetailProjectContext();
 
   const handleAddNewMember = () => {
     setIsOpenModalAddNewMember(true);
@@ -19,10 +17,7 @@ const ProjectMembers = () => {
     return (
       <AvatarGroup max={4}>
         {members.map((member) => (
-          <Avatar 
-            key={member.id}
-            text={member.name}
-          />
+          <Avatar key={member.id} text={member.name} />
         ))}
       </AvatarGroup>
     );
@@ -30,7 +25,6 @@ const ProjectMembers = () => {
 
   return (
     <Stack direction={'row'} alignItems={'center'} gap={2}>
-      
       {renderAvatarMembers()}
       <Button
         variant="text"
