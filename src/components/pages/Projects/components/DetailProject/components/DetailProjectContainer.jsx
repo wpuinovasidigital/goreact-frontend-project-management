@@ -48,11 +48,7 @@ const DetailProjectContainer = () => {
     },
   });
 
-  const keyboardSensor = useSensor(KeyboardSensor, {
-    coordinateGetter: sortableKeyboardCoordinates,
-  });
-
-  const sensors = useSensors(mouseSensor, pointerSensor, keyboardSensor);
+  const sensors = useSensors(mouseSensor, pointerSensor);
 
   const handleDragStart = (event) =>
     setActiveDragItem(event.active.data.current);
