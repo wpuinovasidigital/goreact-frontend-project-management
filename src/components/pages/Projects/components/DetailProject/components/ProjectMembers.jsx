@@ -8,7 +8,6 @@ import useDetailProjectContext from '../hooks/useDetailProjectContext';
 import Avatar from '@/components/ui/Avatar';
 import services from '@/services';
 
-
 const ProjectMembers = () => {
   const { members, setIsOpenModalAddNewMember } = useDetailProjectContext();
 

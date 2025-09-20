@@ -15,8 +15,6 @@ import datetime from '@/utils/datetime';
 import session from '@/utils/session';
 
 const Projects = () => {
-  
-
   const [isLoading, setLoading] = useState(false);
   const [boardsData, setBoardsData] = useState([]);
   const [boardsMeta, setBoardsMeta] = useState({});

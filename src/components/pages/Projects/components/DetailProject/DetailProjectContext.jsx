@@ -34,6 +34,8 @@ const defaultState = {
   setMembers() {},
   isOpenModalEditProject: false,
   setIsOpenModalEditProject() {},
+  activeOverItem: null,
+  setActiveOverItem() {},
 };
 
 export const DetailProjectContext = createContext(defaultState);
@@ -50,6 +52,7 @@ const DetailProjectProvider = ({ children }) => {
   const [isOpenModalAddNewMember, setIsOpenModalAddNewMember] = useState(false);
   const [members, setMembers] = useState([]);
   const [isOpenModalEditProject, setIsOpenModalEditProject] = useState(false);
+  const [activeOverItem, setActiveOverItem] = useState(null);
 
   const [isLoadingBoardLists, setLoadingBoardLists] = useState(false);
   const [boardListData, setBoardListData] = useState([]);
@@ -227,6 +230,7 @@ const DetailProjectProvider = ({ children }) => {
         isOpenModalAddNewMember,
         members,
         isOpenModalEditProject,
+        activeOverItem,
 
         getTaskItemsByListId,
         setUpdateTaskItemPosition,
@@ -239,6 +243,7 @@ const DetailProjectProvider = ({ children }) => {
         setIsOpenModalAddNewMember,
         fetchBoardMembers,
         setIsOpenModalEditProject,
+        setActiveOverItem,
       }}
     >
       {children}

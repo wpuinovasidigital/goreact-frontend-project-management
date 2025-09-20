@@ -14,10 +14,11 @@ import {
 import useDetailProjectContext from '../hooks/useDetailProjectContext';
 
 import CreateNewTask from './CreateNewTask';
-import TaskItems, { TaskSortableItem } from './TaskItems';
+import TaskItems from './TaskItems';
 
 import services from '@/services';
 import { DRAG_CARD, DRAG_LIST } from '@/utils/constants';
+import { useEffect } from 'react';
 
 const ListSortableItem = ({ id, item }) => {
   const detailProjectContext = useDetailProjectContext();
@@ -28,6 +29,7 @@ const ListSortableItem = ({ id, item }) => {
     setNodeRef: setNodeRefDroppable,
     isOver,
     active,
+    over,
   } = useDroppable({
     id,
     data: {
@@ -114,6 +116,7 @@ const ListSortableItem = ({ id, item }) => {
       </Stack>
       <Box
         sx={{
+          position: 'relative',
           height: 850,
           pb: 2,
           overflowY: 'auto',
@@ -130,16 +133,42 @@ const ListSortableItem = ({ id, item }) => {
           },
         }}
       >
-        {isOver &&
-          active.data.current.type === DRAG_CARD &&
-          active.data.current.listId !== item.public_id && (
-            <Box p={1}>
-              <Paper elevation={3} sx={{ p: 1, bgcolor: colors.grey[200] }}>
-                test
-              </Paper>
-            </Box>
-          )}
-        <TaskItems listId={item.public_id} />
+        {active && active.data.current.list_public_id !== item.public_id && (
+          <Box px={1} pt={1} position={'absolute'} width={'100%'} zIndex={1}>
+            <Paper
+              elevation={0}
+              sx={{
+                p: 1,
+                bgcolor: colors.blue[50],
+                borderStyle: 'dashed',
+                borderColor: colors.blue[200],
+              }}
+            >
+              <Stack
+                sx={{ height: '80vh' }}
+                justifyContent={'center'}
+                alignItems={'center'}
+                gap={1}
+              >
+                <Typography
+                  variant="body1"
+                  fontWeight={'bold'}
+                  color={colors.blue[800]}
+                >
+                  {item.title}
+                </Typography>
+              </Stack>
+            </Paper>
+          </Box>
+        )}
+        <TaskItems
+          activeOverItem={{
+            active: active?.data.current,
+            over: over?.data.current,
+            isOver,
+          }}
+          listId={item.public_id}
+        />
         <CreateNewTask listId={item.public_id} />
       </Box>
     </Box>

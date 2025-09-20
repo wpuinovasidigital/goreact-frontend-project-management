@@ -10,6 +10,7 @@ import TextField from '@/components/ui/Forms/TextField';
 import Modal from '@/components/ui/Modal';
 import { useSnackbar } from '@/components/ui/Snackbar';
 import services from '@/services';
+import { Warning } from '@mui/icons-material';
 
 const ModalAddNewMember = () => {
   const detailProjectData = useLoaderData();
@@ -82,11 +83,33 @@ const ModalAddNewMember = () => {
   };
 
   const renderUsersResult = () => {
-    if (!usersData) return <></>;
+    if (!usersData && !isLoading) return <></>;
+
+    if (usersData && usersData.length === 0 && debounceEmail && !isLoading) {
+      return (
+        <Stack
+          direction={'row'}
+          gap={1}
+          justifyContent={'flex-start'}
+          alignItems={'center'}
+          mt={2}
+        >
+          <Warning />
+
+          <Typography variant="body2">
+            Pengguna{' '}
+            <Typography component={'span'} fontWeight={600}>
+              {debounceEmail}
+            </Typography>{' '}
+            tidak ditemukan
+          </Typography>
+        </Stack>
+      );
+    }
 
     return (
       <>
-        {usersData.map((item) => (
+        {usersData?.map((item) => (
           <Stack
             direction={'row'}
             gap={2}
@@ -130,7 +153,7 @@ const ModalAddNewMember = () => {
       handleClose={handleClose}
       title="Tambah member"
     >
-      <Box sx={{ minWidth: 600, p: 2 }}>
+      <Box sx={{ width: 600, p: 2 }}>
         <TextField
           control={control}
           name="email"

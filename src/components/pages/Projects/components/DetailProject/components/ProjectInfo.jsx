@@ -12,8 +12,6 @@ import Dropdown from '@/components/ui/Dropdown';
 import services from '@/services';
 import datetime from '@/utils/datetime';
 
-
-
 const ProjectInfo = () => {
   const detailProjectData = useLoaderData();
 

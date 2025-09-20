@@ -1,4 +1,6 @@
 import {
+  closestCenter,
+  closestCorners,
   defaultDropAnimationSideEffects,
   DndContext,
   DragOverlay,
@@ -31,8 +33,6 @@ import { TaskSortableItem } from './TaskItems';
 import SidebarLayout from '@/components/layouts/SidebarLayout';
 import { DRAG_CARD, DRAG_LIST } from '@/utils/constants';
 
-
-
 const DetailProjectContainer = () => {
   const detailProjectData = useLoaderData();
   const detailProjectContext = useDetailProjectContext();
@@ -59,6 +59,7 @@ const DetailProjectContainer = () => {
     setActiveDragItem(event.active.data.current);
   const handleDragEnd = async (event) => {
     const { active, over } = event;
+    setActiveDragItem(null);
 
     if (!over) return;
 
@@ -75,12 +76,8 @@ const DetailProjectContainer = () => {
         active.data.current.list_internal_id ===
         (over.data.current.list_internal_id || over.data.current.internal_id),
     });
-    setActiveDragItem(null);
   };
   const handleDragCancel = () => setActiveDragItem(null);
-  const handleDragOver = () => {
-    detailProjectContext.setIsOver(true);
-  };
 
   const boardListDataMapPublicId = useMemo(() => {
     return boardListData.map((item) => item.public_id);
@@ -135,9 +132,8 @@ const DetailProjectContainer = () => {
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
             onDragCancel={handleDragCancel}
-            onDragOver={handleDragOver}
             sensors={sensors}
-            // collisionDetection={closestCenter}
+            // collisionDetection={closestCorners}
           >
             {/* Sortable List */}
             <SortableContext

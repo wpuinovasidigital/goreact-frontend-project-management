@@ -9,6 +9,7 @@ import useDetailProjectContext from '../hooks/useDetailProjectContext';
 
 import TextField from '@/components/ui/Forms/TextField';
 import services from '@/services';
+import { Add, PlusOneRounded } from '@mui/icons-material';
 
 const createListSchema = Yup.object({
   title: Yup.string().required(),
@@ -91,6 +92,7 @@ const CreateNewList = () => {
           variant="contained"
           onClick={handleOpenFormCreateList}
           disableElevation
+          startIcon={<PlusOneRounded />}
         >
           Buat daftar tugas
         </Button>

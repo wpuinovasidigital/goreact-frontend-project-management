@@ -5,7 +5,7 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Box, colors, Paper, Stack, Typography } from '@mui/material';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
 
 import ModalTaskDetail from '../../Modals/ModalTaskDetail/ModalTaskDetail';
@@ -13,9 +13,8 @@ import useDetailProjectContext from '../hooks/useDetailProjectContext';
 
 import { DRAG_CARD } from '@/utils/constants';
 
-
 export const TaskSortableItem = ({ id, item, listId }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
   const detailProjectContext = useDetailProjectContext();
   const {
     attributes,
@@ -68,25 +67,11 @@ export const TaskSortableItem = ({ id, item, listId }) => {
           }}
           gap={2}
         >
-          <Typography
-            variant="body2"
-            fontWeight={'bold'}
-            flex={1}
-            sx={
-              {
-                // overflow: 'hidden',
-                // textOverflow: 'ellipsis',
-                // display: '-webkit-box',
-                // WebkitLineClamp: 2,
-                // WebkitBoxOrient: 'vertical',
-              }
-            }
-          >
+          <Typography variant="body2" fontWeight={'bold'} flex={1}>
             {item.title}
           </Typography>
           <Stack direction="row" justifyContent={'space-between'}>
             <Typography variant="caption">{`${detailProjectContext.getProjectInitials}-${item.internal_id}`}</Typography>
-            {/* <Typography variant='caption'>{`${detailProjectContext.getProjectInitials}-${item.internal_id}`}</Typography> */}
           </Stack>
         </Stack>
       </Paper>
@@ -94,12 +79,19 @@ export const TaskSortableItem = ({ id, item, listId }) => {
   );
 };
 
-const TaskItems = ({ listId }) => {
+const TaskItems = ({ activeOverItem, listId }) => {
+  const { active, over, isOver } = activeOverItem || {};
+
   const detailProjectContext = useDetailProjectContext();
   const taskItemsData = detailProjectContext.getTaskItemsByListId(listId);
   const taskItemDataIds = useMemo(() => {
     return taskItemsData.map((item) => item.public_id);
   }, [taskItemsData]);
+
+  useEffect(() => {
+    const { active, over, isOver } = activeOverItem;
+    console.log({ active, over, isOver });
+  }, [activeOverItem, taskItemsData]);
 
   const renderTaskItems = () => {
     if (taskItemsData.length === 0) {

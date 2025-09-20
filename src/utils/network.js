@@ -26,7 +26,7 @@ network.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response && error.response.data.response_code === 401) {
+    if (error.response && error.response.response_code === 401) {
       session.clearSession();
     }
 
