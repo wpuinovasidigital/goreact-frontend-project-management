@@ -24,6 +24,7 @@ export const TaskSortableItem = ({ id, item, listId }) => {
     transform,
     transition,
     handleClickTaskItem,
+    setNodeRefDroppable
   } = useTaskItems({
     id,
     item,
@@ -33,6 +34,7 @@ export const TaskSortableItem = ({ id, item, listId }) => {
   return (
     <Box ref={setNodeRef} key={item.public_id}>
       <Paper
+        ref={setNodeRefDroppable}
         elevation={2}
         sx={{
           transform: CSS.Translate.toString(transform),

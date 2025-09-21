@@ -2,10 +2,20 @@ import { useSearchParams } from 'react-router';
 import useDetailProjectContext from './useDetailProjectContext';
 import { useSortable } from '@dnd-kit/sortable';
 import { DRAG_CARD } from '@/utils/constants';
+import { useDroppable } from '@dnd-kit/core';
 
 const useTaskItems = ({ id, item, listId }) => {
   const [, setSearchParams] = useSearchParams();
   const detailProjectContext = useDetailProjectContext();
+  const {
+    setNodeRef: setNodeRefDroppable,
+  } = useDroppable({
+    id, 
+    data: {
+      ...item,
+      type: DRAG_CARD,
+    }
+  });
   const {
     attributes,
     listeners,
@@ -37,6 +47,7 @@ const useTaskItems = ({ id, item, listId }) => {
     transform,
     transition,
     handleClickTaskItem,
+    setNodeRefDroppable
   };
 };
 export default useTaskItems;
