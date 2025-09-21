@@ -25,7 +25,7 @@ const useTaskItems = ({ id, item, listId }) => {
   const handleClickTaskItem = (e) => {
     e.stopPropagation();
     detailProjectContext.setIsOpenTaskDetail(true);
-    setSearchParams({ taskId: item.public_id });
+    setSearchParams({ taskId: item.public_id, listId });
   };
 
   return {

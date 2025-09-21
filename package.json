@@ -8,7 +8,8 @@
     "build": "vite build",
     "lint": "eslint . --fix",
     "format": "prettier --write .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "serve": "serve -s dist -l 5173"
   },
   "dependencies": {
     "@dnd-kit/core": "6.3.1",
