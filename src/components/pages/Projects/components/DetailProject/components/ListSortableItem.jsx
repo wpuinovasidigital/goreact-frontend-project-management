@@ -1,5 +1,5 @@
 import { CSS } from '@dnd-kit/utilities';
-import { DeleteForever } from '@mui/icons-material';
+import { Check, Close, Delete, DeleteForever } from '@mui/icons-material';
 import {
   Box,
   colors,
@@ -13,6 +13,7 @@ import TaskItems from './TaskItems';
 
 import useListSortableItem from '../hooks/useListSortableItem';
 import { DRAG_CARD } from '@/utils/constants';
+import { useState } from 'react';
 
 const ListSortableItem = ({ id, item }) => {
   const {
@@ -27,7 +28,42 @@ const ListSortableItem = ({ id, item }) => {
     transform,
     transition,
     handleDeleteList,
+    isShowConfirmDelete,
+    setShowConfirmDelete
   } = useListSortableItem({ id, item });
+
+
+  const renderDeleteList = () => {
+    if (isShowConfirmDelete) {
+      return (
+        <Stack direction={'row'} gap={1}>
+          <IconButton
+        size="small"
+        color={'success'}
+        onClick={handleDeleteList(item.public_id)}
+      >
+        <Check />
+      </IconButton>
+      <IconButton
+        size="small"
+        color={'default'}
+        onClick={() => setShowConfirmDelete(false)}
+      >
+        <Close />
+      </IconButton>
+        </Stack>
+      )
+    }
+    return (
+      <IconButton
+        size="small"
+        color={'error'}
+        onClick={() => setShowConfirmDelete(true)}
+      >
+        <Delete />
+      </IconButton>
+    );
+  };
 
   return (
     <Box
@@ -79,13 +115,7 @@ const ListSortableItem = ({ id, item }) => {
           </Stack>
         </Stack>
 
-        <IconButton
-          size="small"
-          color={'error'}
-          onClick={handleDeleteList(item.public_id)}
-        >
-          <DeleteForever />
-        </IconButton>
+        {renderDeleteList(item)}
       </Stack>
       <Box
         sx={{

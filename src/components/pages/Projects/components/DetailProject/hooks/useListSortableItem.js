@@ -3,10 +3,15 @@ import useDetailProjectContext from './useDetailProjectContext';
 import { useSortable } from '@dnd-kit/sortable';
 import services from '@/services';
 import { DRAG_LIST } from '@/utils/constants';
+import { useEffect, useState } from 'react';
 
 const useListSortableItem = ({ id, item }) => {
   const detailProjectContext = useDetailProjectContext();
   const taskItems = detailProjectContext.getTaskItemsByListId(item.public_id);
+
+  const [isShowConfirmDelete, setShowConfirmDelete] = useState(false);
+
+  
 
   const {
     setNodeRef: setNodeRefDroppable,
@@ -32,6 +37,7 @@ const useListSortableItem = ({ id, item }) => {
   const handleDeleteList = (listId) => async (e) => {
     await services.lists.remove(listId);
     await detailProjectContext.fetchBoardLists();
+    setShowConfirmDelete(false);
   };
 
   return {
@@ -47,6 +53,8 @@ const useListSortableItem = ({ id, item }) => {
     transform,
     transition,
     handleDeleteList,
+    isShowConfirmDelete,
+    setShowConfirmDelete,
   };
 };
 
