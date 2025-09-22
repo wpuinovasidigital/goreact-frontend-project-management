@@ -18,7 +18,7 @@ const boards = {
   async detail(boardId) {
     return network.get(`/api/v1/boards/${boardId}`);
   },
-  async lists() {
+  async lists(boardId) {
     return network.get(`/api/v1/boards/${boardId}/lists`);
   },
   async updateListPosition(boardId, data) {

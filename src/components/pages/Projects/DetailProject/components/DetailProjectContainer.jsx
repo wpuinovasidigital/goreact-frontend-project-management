@@ -1,30 +1,26 @@
 import { colors, Paper, Typography } from '@mui/material';
 
 import SidebarLayout from '@/components/layouts/SidebarLayout';
+import { useLoaderData } from 'react-router';
+import useDetailProjectContext from '../hooks/useDetailProjectContext';
 
 const DetailProjectContainer = () => {
+  const detailProjectData = useLoaderData();
+  const detailProjectContext = useDetailProjectContext();
+
   return (
     <SidebarLayout
-      pageTitle="Detail Proyek"
+      pageTitle={`${detailProjectData.title} (${detailProjectContext.getProjectInitials})`}
       breadcrumbs={[
         {
           label: 'Daftar Proyek',
           href: '/projects',
         },
         {
-          label: 'Agency Software Engineering',
+          label: detailProjectData.title,
         },
       ]}
-    >
-      <Paper
-        sx={{
-          padding: 2,
-          background: colors.lightBlue[100],
-        }}
-      >
-        <Typography>Menampilkan detail proyek di sini</Typography>
-      </Paper>
-    </SidebarLayout>
+    ></SidebarLayout>
   );
 };
 
