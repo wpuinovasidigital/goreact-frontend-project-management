@@ -3,6 +3,7 @@ import useDetailProjectContext from './useDetailProjectContext';
 import { DRAG_CARD } from '@/utils/constants';
 
 const useTaskItems = ({ id, item, listId }) => {
+  
   const detailProjectContext = useDetailProjectContext();
 
   const {
@@ -20,6 +21,8 @@ const useTaskItems = ({ id, item, listId }) => {
     },
   });
 
+
+
   return {
     detailProjectContext,
     isDragging,
@@ -28,6 +31,7 @@ const useTaskItems = ({ id, item, listId }) => {
     setNodeRef,
     transform,
     transition,
+    handleClickTaskItem,
   };
 };
 
