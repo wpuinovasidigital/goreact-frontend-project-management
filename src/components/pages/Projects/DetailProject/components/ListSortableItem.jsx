@@ -97,7 +97,7 @@ const ListSortableItem = ({ id, item }) => {
         </Stack>
         {renderDeleteList()}
       </Stack>
-      <TaskItems droppable={droppable} listItem={item} />
+      <TaskItems listDroppable={droppable} listItem={item} />
     </Box>
   );
 };

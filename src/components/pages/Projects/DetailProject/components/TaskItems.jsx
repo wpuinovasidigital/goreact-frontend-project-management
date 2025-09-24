@@ -8,9 +8,9 @@ import TaskSortableItem from './TaskSortableItem';
 import CreateNewTask from './CreateNewTask';
 import { DRAG_CARD } from '@/utils/constants';
 
-const TaskItems = ({ droppable, listItem }) => {
-  const { active } = droppable;
-  const { detailProjectContext, taskItemDataIds, taskItemsData } = useTaskItems(
+const TaskItems = ({ listDroppable, listItem }) => {
+  const { active } = listDroppable;
+  const { taskItemDataIds, taskItemsData } = useTaskItems(
     listItem.public_id,
   );
 
@@ -57,7 +57,6 @@ const TaskItems = ({ droppable, listItem }) => {
     <Box
       sx={{
         height: 850,
-
         overflowY: 'auto',
         position: 'relative',
       }}
