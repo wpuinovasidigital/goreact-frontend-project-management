@@ -33,8 +33,10 @@ const TaskSortableItem = ({ id, item, listId }) => {
         gap={2}
         justifyContent={'space-between'}
       >
-        <Typography variant='body2' fontWeight={600}>{item.title}</Typography>
-        <Typography variant='caption'>
+        <Typography variant="body2" fontWeight={600}>
+          {item.title}
+        </Typography>
+        <Typography variant="caption">
           {detailProjectContext.getProjectInitials}-{item.internal_id}
         </Typography>
       </Stack>
