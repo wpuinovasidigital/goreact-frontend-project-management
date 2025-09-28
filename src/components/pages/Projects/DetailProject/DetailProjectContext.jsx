@@ -36,6 +36,7 @@ const defaultState = {
   setIsOpenModalEditProject() {},
   activeOverItem: null,
   setActiveOverItem() {},
+  async fetchBoardMembers() {}
 };
 
 export const DetailProjectContext = createContext(defaultState);
