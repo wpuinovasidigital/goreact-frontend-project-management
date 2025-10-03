@@ -18,6 +18,7 @@ import {
 import { DRAG_CARD, DRAG_LIST } from '@/utils/constants';
 import TaskSortableItem from './TaskSortableItem';
 import ProjectInfo from './ProjectInfo';
+import ModalTaskDetail from '../../Modals/ModalTaskDetail';
 
 const DetailProjectContainer = () => {
   const {
@@ -51,64 +52,67 @@ const DetailProjectContainer = () => {
   };
 
   return (
-    <SidebarLayout
-      pageTitle={`${detailProjectData.title} (${detailProjectContext.getProjectInitials})`}
-      breadcrumbs={[
-        {
-          label: 'Daftar Proyek',
-          href: '/projects',
-        },
-        {
-          label: detailProjectData.title,
-        },
-      ]}
-    >
-      <DndContext
-        onDragStart={handleDragStart}
-        onDragEnd={handleDragEnd}
-        onDragCancel={handleDragCancel}
-        sensors={sensors}
+    <>
+      <SidebarLayout
+        pageTitle={`${detailProjectData.title} (${detailProjectContext.getProjectInitials})`}
+        breadcrumbs={[
+          {
+            label: 'Daftar Proyek',
+            href: '/projects',
+          },
+          {
+            label: detailProjectData.title,
+          },
+        ]}
       >
-        <ProjectInfo />
-        <SortableContext
-          items={boardListDataMapPublicIds}
-          strategy={horizontalListSortingStrategy}
+        <DndContext
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
+          onDragCancel={handleDragCancel}
+          sensors={sensors}
         >
-          <Stack
-            direction={'row'}
-            justifyContent={'flex-start'}
-            alignItems={'flex-start'}
-            gap={2}
-            pb={5}
-            sx={{
-              overflowX: 'auto',
+          <ProjectInfo />
+          <SortableContext
+            items={boardListDataMapPublicIds}
+            strategy={horizontalListSortingStrategy}
+          >
+            <Stack
+              direction={'row'}
+              justifyContent={'flex-start'}
+              alignItems={'flex-start'}
+              gap={2}
+              pb={5}
+              sx={{
+                overflowX: 'auto',
+              }}
+            >
+              {boardListData?.map((item) => (
+                <ListSortableItem
+                  key={item.public_id}
+                  id={item.public_id}
+                  item={item}
+                />
+              ))}
+              <CreateNewList />
+            </Stack>
+          </SortableContext>
+          <DragOverlay
+            dropAnimation={{
+              sideEffects: defaultDropAnimationSideEffects({
+                styles: {
+                  active: {
+                    opacity: '0.4',
+                  },
+                },
+              }),
             }}
           >
-            {boardListData?.map((item) => (
-              <ListSortableItem
-                key={item.public_id}
-                id={item.public_id}
-                item={item}
-              />
-            ))}
-            <CreateNewList />
-          </Stack>
-        </SortableContext>
-        <DragOverlay
-          dropAnimation={{
-            sideEffects: defaultDropAnimationSideEffects({
-              styles: {
-                active: {
-                  opacity: '0.4',
-                },
-              },
-            }),
-          }}
-        >
-          {renderDragOverlay()}
-        </DragOverlay>
-      </DndContext>
-    </SidebarLayout>
+            {renderDragOverlay()}
+          </DragOverlay>
+        </DndContext>
+      </SidebarLayout>
+      <ModalTaskDetail />
+    </>
   );
 };
 
