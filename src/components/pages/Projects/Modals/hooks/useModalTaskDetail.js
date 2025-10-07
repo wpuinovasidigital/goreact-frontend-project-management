@@ -3,38 +3,26 @@ import { useLoaderData, useSearchParams } from 'react-router';
 import useDetailProjectContext from '../../DetailProject/hooks/useDetailProjectContext';
 import services from '@/services';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-
-import * as Yup from 'yup';
-
-const taskAttachmentSchema = Yup.object({
-  attachments: Yup.array(Yup.mixed()).min(1).required(),
-});
+import useModalTaskDetailContext from './useModalTaskDetailContext';
 
 const useModalTaskDetail = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [taskDetailData, setTaskDetailData] = useState({});
+  const [_, setSearchParams] = useSearchParams();
   const [isLoading, setLoading] = useState(false);
   const [editDescription, setEditDescription] = useState(false);
   const [editTitle, setEditTitle] = useState(false);
   const [editDueDate, setEditDueDate] = useState(false);
   const [editAssignee, setEditAssignee] = useState(false);
   const [isShowConfirmDelete, setShowConfirmDelete] = useState(false);
-  const [
-    isShowConfirmDeleteTaskAttachment,
-    setShowConfirmDeleteTaskAttachment,
-  ] = useState({
-    show: false,
-    item: null,
-  });
 
   const [membersData, setMembersData] = useState([]);
 
   const detailProjectData = useLoaderData();
   const detailProjectContext = useDetailProjectContext();
+  const modalTaskDetailContext = useModalTaskDetailContext();
 
-  const taskId = searchParams.get('taskId');
-  const listId = searchParams.get('listId');
+  const taskId = modalTaskDetailContext.taskId;
+  const listId = modalTaskDetailContext.listId;
+  const taskDetailData = modalTaskDetailContext.taskDetailData;
 
   const formTask = useForm();
   const formTaskAssignee = useForm({
@@ -42,20 +30,6 @@ const useModalTaskDetail = () => {
       members: [],
     },
   });
-  const formTaskAttachment = useForm({
-    defaultValues: {
-      attachments: [],
-    },
-    resolver: yupResolver(taskAttachmentSchema),
-  });
-
-  const fetchTaskDetail = async (taskId) => {
-    const response = await services.cards.getDetail(taskId);
-    setTaskDetailData(response.data.data);
-
-    // fetch project members
-    await fetchProjectMembers();
-  };
 
   const fetchProjectMembers = async () => {
     const response = await services.boards.getMembers(
@@ -74,7 +48,7 @@ const useModalTaskDetail = () => {
       description: values.description ?? taskDetailData.description,
       position: taskDetailData.position,
     });
-    await fetchTaskDetail(taskId);
+    await modalTaskDetailContext.fetchTaskDetail(taskId);
     setLoading(false);
     setEditDescription(false);
     setEditTitle(false);
@@ -95,33 +69,6 @@ const useModalTaskDetail = () => {
     setEditDueDate(false);
   };
 
-  const onSubmitTaskAttachment = async (values) => {
-    setLoading(true);
-
-    const formData = new FormData();
-    formData.append('file', values.attachments[0]);
-    await services.cards.uploadAttachment(taskDetailData.public_id, formData);
-    await fetchTaskDetail(taskId);
-    setLoading(false);
-    setEditDescription(false);
-    setEditTitle(false);
-    setEditDueDate(false);
-  };
-
-  const onDeleteTaskAttachment = async (attachmentId) => {
-    setLoading(true);
-    await services.cards.deleteAttachment(
-      taskDetailData.public_id,
-      attachmentId,
-    );
-    await fetchTaskDetail(taskId);
-    setLoading(false);
-    setEditDescription(false);
-    setEditTitle(false);
-    setEditDueDate(false);
-    setShowConfirmDeleteTaskAttachment(false);
-  };
-
   const handleDeleteTask = async () => {
     setLoading(true);
     await services.cards.remove(taskDetailData.public_id);
@@ -135,14 +82,7 @@ const useModalTaskDetail = () => {
     await detailProjectContext.fetchBoardLists();
   };
 
-  useEffect(() => {
-    if (taskId && listId) {
-      fetchTaskDetail(taskId);
-    }
-  }, [taskId, listId]);
-
   return {
-    searchParams,
     taskDetailData,
     isLoading,
     editDescription,
@@ -151,10 +91,7 @@ const useModalTaskDetail = () => {
     editAssignee,
     isShowConfirmDelete,
     membersData,
-    isShowConfirmDeleteTaskAttachment,
 
-    setSearchParams,
-    setTaskDetailData,
     setLoading,
     setEditDescription,
     setEditTitle,
@@ -162,22 +99,16 @@ const useModalTaskDetail = () => {
     setEditAssignee,
     setShowConfirmDelete,
     setMembersData,
-    setShowConfirmDeleteTaskAttachment,
 
     detailProjectData,
-    detailProjectContext,
-
     taskId,
     listId,
-
+    
     formTask,
     formTaskAssignee,
-    formTaskAttachment,
 
     onSubmit,
     onSubmitTaskAssignee,
-    onSubmitTaskAttachment,
-    onDeleteTaskAttachment,
 
     handleDeleteTask,
     handleClose,
