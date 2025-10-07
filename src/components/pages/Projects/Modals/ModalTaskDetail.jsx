@@ -1,11 +1,24 @@
 import Modal from '@/components/ui/Modal';
 import useModalTaskDetail from './hooks/useModalTaskDetail';
-import { Box, Button, colors, Stack, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  colors,
+  IconButton,
+  Stack,
+  Typography,
+} from '@mui/material';
 import TextField from '@/components/ui/Forms/TextField';
 import datetime from '@/utils/datetime';
 import DatePicker from '@/components/ui/Forms/DatePicker';
 import dayjs from 'dayjs';
-import { Delete } from '@mui/icons-material';
+import { Check, Close, CloudUpload, Delete } from '@mui/icons-material';
+import Select from '@/components/ui/Forms/Select';
+import Upload from '@/components/ui/Forms/Upload';
+import { getFileName } from '@/utils/attachment';
+import { BASE_URL } from '@/utils/network';
 
 const ModalTaskDetail = () => {
   const {
@@ -24,8 +37,18 @@ const ModalTaskDetail = () => {
     detailProjectData,
     isShowConfirmDelete,
     setShowConfirmDelete,
-    handleDeleteTask
+    handleDeleteTask,
+    membersData,
 
+    formTaskAssignee,
+    formTaskAttachment,
+
+    onSubmitTaskAssignee,
+    onSubmitTaskAttachment,
+    onDeleteTaskAttachment,
+
+    isShowConfirmDeleteTaskAttachment,
+    setShowConfirmDeleteTaskAttachment,
   } = useModalTaskDetail();
 
   const renderTitle = () => {
@@ -205,6 +228,171 @@ const ModalTaskDetail = () => {
     );
   };
 
+  const renderAssignee = () => {
+    return (
+      <Stack gap={2}>
+        <Typography variant="h5" fontWeight={700}>
+          Assignee
+        </Typography>
+        <Stack
+          gap={1}
+          component={'form'}
+          onSubmit={formTaskAssignee.handleSubmit(onSubmitTaskAssignee)}
+        >
+          <Select
+            control={formTaskAssignee.control}
+            name={'members'}
+            label={'Pilih member'}
+            options={membersData?.map((item) => ({
+              label: item.name,
+              value: item.public_id,
+            }))}
+            size="small"
+            multiple
+          />
+          <Stack direction={'row'} justifyContent={'flex-end'} gap={1}>
+            <Button
+              type="submit"
+              variant="contained"
+              disabled={isLoading}
+              loading={isLoading}
+              size="small"
+            >
+              Simpan
+            </Button>
+
+            <Button
+              type="button"
+              variant="outlined"
+              onClick={() => setEditDueDate(false)}
+              disabled={isLoading}
+              size="small"
+            >
+              Batal
+            </Button>
+          </Stack>
+        </Stack>
+      </Stack>
+    );
+  };
+
+  const renderAttachment = () => {
+    return (
+      <Stack gap={2}>
+        <Typography variant="h5" fontWeight={700}>
+          Lampiran (Attachment)
+        </Typography>
+        <Stack gap={2}>
+          {taskDetailData?.attachments?.map((item) => (
+            <Stack
+              direction={'row'}
+              justifyContent={'space-between'}
+              alignItems={'center'}
+              sx={{
+                border: `1px solid ${colors.grey[300]}`,
+                height: 80,
+                borderRadius: 1,
+                p: 1,
+              }}
+            >
+              <Box>
+                <Typography
+                  variant="body1"
+                  component={'a'}
+                  sx={{
+                    cursor: 'pointer',
+                    textDecoration: 'none',
+                    color: colors.grey[700],
+                    ':hover': {
+                      color: colors.blue[600],
+                    },
+                  }}
+                  href={`${BASE_URL}/files/${getFileName(item.file)}`}
+                >
+                  {getFileName(item.file)}
+                </Typography>
+              </Box>
+              <Box>
+                {isShowConfirmDeleteTaskAttachment.show &&
+                isShowConfirmDeleteTaskAttachment?.item?.public_id ===
+                  item.public_id ? (
+                  <Stack direction={'row'} gap={1}>
+                    <IconButton
+                      size="small"
+                      color="success"
+                      onClick={() => onDeleteTaskAttachment(item.public_id)}
+                    >
+                      <Check />
+                    </IconButton>
+                    <IconButton
+                      size="small"
+                      color="error"
+                      onClick={() =>
+                        setShowConfirmDeleteTaskAttachment({
+                          show: false,
+                          item: null,
+                        })
+                      }
+                    >
+                      <Close />
+                    </IconButton>
+                  </Stack>
+                ) : (
+                  <IconButton
+                    size="small"
+                    color="error"
+                    onClick={() =>
+                      setShowConfirmDeleteTaskAttachment({
+                        show: true,
+                        item,
+                      })
+                    }
+                  >
+                    <Delete />
+                  </IconButton>
+                )}
+              </Box>
+            </Stack>
+          ))}
+        </Stack>
+        <Stack
+          gap={1}
+          component={'form'}
+          onSubmit={formTaskAttachment.handleSubmit(onSubmitTaskAttachment)}
+        >
+          <Upload
+            control={formTaskAttachment.control}
+            name={'attachments'}
+            accept=".pdf, .jpg, .png"
+          />
+          {formTaskAttachment.formState.isValid && (
+            <Stack direction={'row'} justifyContent={'flex-end'} gap={1}>
+              <Button
+                type="submit"
+                variant="contained"
+                disabled={isLoading}
+                loading={isLoading}
+                size="small"
+              >
+                Simpan
+              </Button>
+
+              <Button
+                type="button"
+                variant="outlined"
+                onClick={() => formTaskAttachment.setValue('attachments', [])}
+                disabled={isLoading}
+                size="small"
+              >
+                Batal
+              </Button>
+            </Stack>
+          )}
+        </Stack>
+      </Stack>
+    );
+  };
+
   const renderTaskDetailActions = () => {
     return (
       <Stack
@@ -242,22 +430,22 @@ const ModalTaskDetail = () => {
           </Stack>
         ) : (
           <>
-          <Button
-            startIcon={<Delete />}
-            variant="outlined"
-            color="error"
-            onClick={() => setShowConfirmDelete(true)}
-            disabled={isLoading}
-          >
-            Hapus
-          </Button>
-          <Button
-            variant="outlined"
-            onClick={handleClose}
-            disabled={isLoading}
-          >
-            Tutup
-          </Button>
+            <Button
+              startIcon={<Delete />}
+              variant="outlined"
+              color="error"
+              onClick={() => setShowConfirmDelete(true)}
+              disabled={isLoading}
+            >
+              Hapus
+            </Button>
+            <Button
+              variant="outlined"
+              onClick={handleClose}
+              disabled={isLoading}
+            >
+              Tutup
+            </Button>
           </>
         )}
       </Stack>
@@ -288,6 +476,8 @@ const ModalTaskDetail = () => {
         </Stack>
         <Stack width={'35%'} gap={2}>
           {renderDueDate()}
+          {renderAssignee()}
+          {renderAttachment()}
         </Stack>
       </Stack>
       {renderTaskDetailActions()}

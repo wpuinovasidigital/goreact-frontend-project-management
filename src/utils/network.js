@@ -2,8 +2,10 @@ import axios from 'axios';
 
 import session from './session';
 
+export const BASE_URL = 'http://103.49.239.40:3030';
+
 const network = axios.create({
-  baseURL: 'http://103.49.239.40:3030',
+  baseURL: BASE_URL,
 });
 
 network.interceptors.request.use(
