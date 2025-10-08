@@ -39,6 +39,7 @@ const useTaskAttachments = () => {
     await fetchTaskDetail(taskId);
 
     setLoading(false);
+    formTaskAttachment.reset();
   };
 
   const onDeleteTaskAttachment = async (attachmentId) => {

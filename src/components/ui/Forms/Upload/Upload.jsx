@@ -4,12 +4,12 @@ import { useState } from 'react';
 import { Controller } from 'react-hook-form';
 
 const Upload = ({ control, name, ...props }) => {
-  const [filesData, setFilesData] = useState([]);
+  
   return (
     <Controller
       control={control}
       name={name}
-      render={({ field: { onChange, onBlur }, fieldState: {} }) => {
+      render={({ field: { onChange, onBlur, value }, fieldState: {} }) => {
         const handleChange = (e) => {
           const files = [];
           for (let i = 0; i < e.target.files.length; i++) {
@@ -29,8 +29,8 @@ const Upload = ({ control, name, ...props }) => {
               tabIndex={-1}
               startIcon={<CloudUpload />}
             >
-              {filesData && filesData.length > 0
-                ? `Upload ${filesData.length} file`
+              {value && value.length > 0 
+                ? `Upload ${value.length} file`
                 : 'Upload attachment'}
               <input
                 type="file"
