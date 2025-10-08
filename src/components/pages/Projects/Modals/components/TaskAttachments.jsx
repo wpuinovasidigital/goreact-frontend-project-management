@@ -3,7 +3,14 @@ import useTaskAttachments from '../hooks/useTaskAttachments';
 import Upload from '@/components/ui/Forms/Upload';
 import { getFileExtension, getFileName } from '@/utils/attachment';
 
-import { PictureAsPdf, Check, Close, Delete, Image, Article } from '@mui/icons-material';
+import {
+  PictureAsPdf,
+  Check,
+  Close,
+  Delete,
+  Image,
+  Article,
+} from '@mui/icons-material';
 import {
   Stack,
   Typography,
@@ -28,8 +35,8 @@ const TaskAttachments = () => {
     const extension = getFileExtension(fileUrl);
     if (/png/.test(extension)) return <Image />;
     if (/pdf/.test(extension)) return <PictureAsPdf />;
-    return <Article />
-   }
+    return <Article />;
+  };
 
   return (
     <Stack gap={2}>

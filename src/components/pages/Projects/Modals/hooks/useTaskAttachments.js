@@ -20,11 +20,8 @@ const useTaskAttachments = () => {
     item: null,
   });
 
-  const {
-    taskDetailData,
-    taskId,
-    fetchTaskDetail,
-  } = useModalTaskDetailContext();
+  const { taskDetailData, taskId, fetchTaskDetail } =
+    useModalTaskDetailContext();
 
   const formTaskAttachment = useForm({
     defaultValues: {

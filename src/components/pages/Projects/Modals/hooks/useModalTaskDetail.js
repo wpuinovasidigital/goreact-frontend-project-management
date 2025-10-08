@@ -11,10 +11,7 @@ const useModalTaskDetail = () => {
   const [editDescription, setEditDescription] = useState(false);
   const [editTitle, setEditTitle] = useState(false);
   const [editDueDate, setEditDueDate] = useState(false);
-  const [editAssignee, setEditAssignee] = useState(false);
   const [isShowConfirmDelete, setShowConfirmDelete] = useState(false);
-
-  const [membersData, setMembersData] = useState([]);
 
   const detailProjectData = useLoaderData();
   const detailProjectContext = useDetailProjectContext();
@@ -25,18 +22,6 @@ const useModalTaskDetail = () => {
   const taskDetailData = modalTaskDetailContext.taskDetailData;
 
   const formTask = useForm();
-  const formTaskAssignee = useForm({
-    defaultValues: {
-      members: [],
-    },
-  });
-
-  const fetchProjectMembers = async () => {
-    const response = await services.boards.getMembers(
-      detailProjectData.public_id,
-    );
-    setMembersData(response.data.data);
-  };
 
   const onSubmit = async (values) => {
     setLoading(true);
@@ -49,20 +34,6 @@ const useModalTaskDetail = () => {
       position: taskDetailData.position,
     });
     await modalTaskDetailContext.fetchTaskDetail(taskId);
-    setLoading(false);
-    setEditDescription(false);
-    setEditTitle(false);
-    setEditDueDate(false);
-  };
-
-  const onSubmitTaskAssignee = async (values) => {
-    setLoading(true);
-
-    await services.boards.addMember(
-      detailProjectData.public_id,
-      values.members,
-    );
-    await fetchTaskDetail(taskId);
     setLoading(false);
     setEditDescription(false);
     setEditTitle(false);
@@ -88,28 +59,23 @@ const useModalTaskDetail = () => {
     editDescription,
     editTitle,
     editDueDate,
-    editAssignee,
+
     isShowConfirmDelete,
-    membersData,
 
     setLoading,
     setEditDescription,
     setEditTitle,
     setEditDueDate,
-    setEditAssignee,
+
     setShowConfirmDelete,
-    setMembersData,
 
     detailProjectData,
     taskId,
     listId,
-    
+
     formTask,
-    formTaskAssignee,
 
     onSubmit,
-    onSubmitTaskAssignee,
-
     handleDeleteTask,
     handleClose,
   };

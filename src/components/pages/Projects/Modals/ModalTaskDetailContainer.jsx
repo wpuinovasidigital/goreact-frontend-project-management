@@ -1,31 +1,15 @@
 import Modal from '@/components/ui/Modal';
 import useModalTaskDetail from './hooks/useModalTaskDetail';
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  colors,
-  IconButton,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Box, Button, colors, Stack, Typography } from '@mui/material';
 import TextField from '@/components/ui/Forms/TextField';
 import datetime from '@/utils/datetime';
 import DatePicker from '@/components/ui/Forms/DatePicker';
 import dayjs from 'dayjs';
-import {
-  Check,
-  Close,
-  CloudUpload,
-  Delete,
-  PictureAsPdf,
-} from '@mui/icons-material';
+import { Delete } from '@mui/icons-material';
 import Select from '@/components/ui/Forms/Select';
-import Upload from '@/components/ui/Forms/Upload';
-import { getFileName } from '@/utils/attachment';
-import { BASE_URL } from '@/utils/network';
+
 import TaskAttachments from './components/TaskAttachments';
+import TaskAssignees from './components/TaskAssignees';
 
 const ModalTaskDetailContainer = () => {
   const {
@@ -186,6 +170,7 @@ const ModalTaskDetailContainer = () => {
 
             <Stack direction={'row'} justifyContent={'flex-end'} gap={1}>
               <Button
+                size='small'
                 type="submit"
                 variant="contained"
                 disabled={isLoading}
@@ -195,6 +180,7 @@ const ModalTaskDetailContainer = () => {
               </Button>
 
               <Button
+                size="small"
                 type="button"
                 variant="outlined"
                 onClick={() => setEditDueDate(false)}
@@ -225,54 +211,6 @@ const ModalTaskDetailContainer = () => {
               : datetime.format(taskDetailData.due_date, 'DD MMMM YYYY')}
           </Typography>
         )}
-      </Stack>
-    );
-  };
-
-  const renderAssignee = () => {
-    return (
-      <Stack gap={2}>
-        <Typography variant="h5" fontWeight={700}>
-          Assignee
-        </Typography>
-        <Stack
-          gap={1}
-          component={'form'}
-          onSubmit={formTaskAssignee.handleSubmit(onSubmitTaskAssignee)}
-        >
-          <Select
-            control={formTaskAssignee.control}
-            name={'members'}
-            label={'Pilih member'}
-            options={membersData?.map((item) => ({
-              label: item.name,
-              value: item.public_id,
-            }))}
-            size="small"
-            multiple
-          />
-          <Stack direction={'row'} justifyContent={'flex-end'} gap={1}>
-            <Button
-              type="submit"
-              variant="contained"
-              disabled={isLoading}
-              loading={isLoading}
-              size="small"
-            >
-              Simpan
-            </Button>
-
-            <Button
-              type="button"
-              variant="outlined"
-              onClick={() => setEditDueDate(false)}
-              disabled={isLoading}
-              size="small"
-            >
-              Batal
-            </Button>
-          </Stack>
-        </Stack>
       </Stack>
     );
   };
@@ -360,7 +298,7 @@ const ModalTaskDetailContainer = () => {
         </Stack>
         <Stack width={'35%'} gap={2}>
           {renderDueDate()}
-          {renderAssignee()}
+          <TaskAssignees />
           <TaskAttachments />
         </Stack>
       </Stack>

@@ -1,20 +1,28 @@
 import services from '@/services';
 import { createContext, useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router';
+import { useLoaderData, useSearchParams } from 'react-router';
 
 const defaultState = {
   taskDetailData: {},
   setTaskDetailData() {},
   taskId: '',
   listId: '',
-  async fetchTaskDetail(taskId) {}
+  membersData: [],
+  setMembersData: [],
+  async fetchTaskDetail() {},
+  async fetchProjectMembers() {},
 };
 
 export const ModalTaskDetailContext = createContext(defaultState);
 
 const ModalTaskDetailProvider = ({ children }) => {
-  const [searchParams,] = useSearchParams();
+  const detailProjectData = useLoaderData();
+
+  const [searchParams] = useSearchParams();
   const [taskDetailData, setTaskDetailData] = useState({});
+  const [membersData, setMembersData] = useState([]);
+
+  const boardId = detailProjectData.public_id;
 
   const taskId = searchParams.get('taskId');
   const listId = searchParams.get('listId');
@@ -24,11 +32,21 @@ const ModalTaskDetailProvider = ({ children }) => {
     setTaskDetailData(response.data.data);
   };
 
+  const fetchProjectMembers = async (boardId) => {
+    const response = await services.boards.getMembers(boardId);
+    setMembersData(response.data.data);
+  };
+
+  const initTaskDetail = async () => {
+    await fetchTaskDetail(taskId);
+    await fetchProjectMembers(boardId);
+  };
+
   useEffect(() => {
-    if (taskId && listId) {
-      fetchTaskDetail(taskId);
+    if (taskId && listId && boardId) {
+      initTaskDetail();
     }
-  }, [taskId, listId]);
+  }, [taskId, listId, boardId]);
 
   return (
     <ModalTaskDetailContext
@@ -37,6 +55,8 @@ const ModalTaskDetailProvider = ({ children }) => {
         listId,
         taskDetailData,
         fetchTaskDetail,
+        fetchProjectMembers,
+        membersData,
       }}
     >
       {children}
