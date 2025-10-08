@@ -5,7 +5,7 @@ import useModalTaskDetailContext from './useModalTaskDetailContext';
 import { useState } from 'react';
 
 const useTaskAssignees = () => {
-  const detailProjectData = useLoaderData();
+  
   const { fetchTaskDetail, taskId, membersData, taskDetailData } =
     useModalTaskDetailContext();
   const formTaskAssignees = useForm({
@@ -20,8 +20,8 @@ const useTaskAssignees = () => {
   const onSubmitTaskAssignee = async (values) => {
     setLoading(true);
 
-    await services.boards.addMember(
-      detailProjectData.public_id,
+    await services.cards.addAssignees(
+      taskDetailData.public_id,
       values.members,
     );
     await fetchTaskDetail(taskId);
