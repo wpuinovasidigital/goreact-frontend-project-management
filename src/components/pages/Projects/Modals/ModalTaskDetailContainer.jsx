@@ -7,6 +7,7 @@ import DatePicker from '@/components/ui/Forms/DatePicker';
 import dayjs from 'dayjs';
 import { Delete } from '@mui/icons-material';
 import TaskAssignees from './components/TaskAssignees';
+import TaskAttachments from './components/TaskAttachments';
 
 const ModalTaskDetailContainer = () => {
   const {
@@ -289,6 +290,7 @@ const ModalTaskDetailContainer = () => {
         <Stack width={'35%'} gap={2}>
           {renderDueDate()}
           <TaskAssignees />
+          <TaskAttachments />
         </Stack>
       </Stack>
       {renderTaskDetailActions()}
