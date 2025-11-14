@@ -1,9 +1,23 @@
-import { Button, colors, IconButton, Stack, Typography, Box} from '@mui/material';
+import {
+  Button,
+  colors,
+  IconButton,
+  Stack,
+  Typography,
+  Box,
+} from '@mui/material';
 import useTaskAttachments from '../hooks/useTaskAttachments';
 import Upload from '@/components/ui/Forms/Upload';
 import { API_BASE_URL } from '@/utils/network';
 import { getFileExtension, getFileName } from '@/utils/attachment';
-import { Article, Check, Close, Delete, Image, PictureAsPdf } from '@mui/icons-material';
+import {
+  Article,
+  Check,
+  Close,
+  Delete,
+  Image,
+  PictureAsPdf,
+} from '@mui/icons-material';
 
 const TaskAttachments = () => {
   const {
@@ -66,36 +80,44 @@ const TaskAttachments = () => {
               </Typography>
             </Stack>
             <Box>
-                {
-                    isShowConfirmDeleteTaskAttachment.show && isShowConfirmDeleteTaskAttachment?.item?.public_id === item.public_id ? (
-                        <Stack direction={'row'} gap={1}>
-                            <IconButton size="small" color="success" onClick={() => onDeleteTaskAttachment(item.public_id)}>
-                                <Check />
-                            </IconButton>
-                            <IconButton size="small" color="error" onClick={() => {
-                                setShowConfirmDeleteTaskAttachment({
-                                    show: false,
-                                    item: null,
-                                })
-                            }}>
-                                <Close />
-                            </IconButton>
-                        </Stack>
-                    ) : (
-                        <IconButton
-                            size="small"
-                            color="error"
-                            onClick={() => {
-                                setShowConfirmDeleteTaskAttachment({
-                                    show: true,
-                                    item,
-                                })
-                            }}
-                        >
-                            <Delete />
-                        </IconButton>
-                    )
-                }
+              {isShowConfirmDeleteTaskAttachment.show &&
+              isShowConfirmDeleteTaskAttachment?.item?.public_id ===
+                item.public_id ? (
+                <Stack direction={'row'} gap={1}>
+                  <IconButton
+                    size="small"
+                    color="success"
+                    onClick={() => onDeleteTaskAttachment(item.public_id)}
+                  >
+                    <Check />
+                  </IconButton>
+                  <IconButton
+                    size="small"
+                    color="error"
+                    onClick={() => {
+                      setShowConfirmDeleteTaskAttachment({
+                        show: false,
+                        item: null,
+                      });
+                    }}
+                  >
+                    <Close />
+                  </IconButton>
+                </Stack>
+              ) : (
+                <IconButton
+                  size="small"
+                  color="error"
+                  onClick={() => {
+                    setShowConfirmDeleteTaskAttachment({
+                      show: true,
+                      item,
+                    });
+                  }}
+                >
+                  <Delete />
+                </IconButton>
+              )}
             </Box>
           </Stack>
         ))}

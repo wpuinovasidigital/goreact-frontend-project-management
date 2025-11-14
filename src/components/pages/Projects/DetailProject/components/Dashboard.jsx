@@ -1,4 +1,4 @@
-import { Box, colors, Paper, Stack, Typography } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import {
   Area,
   AreaChart,
@@ -10,8 +10,7 @@ import {
   Pie,
   Cell,
 } from 'recharts';
-
-import SidebarLayout from '@/components/layouts/SidebarLayout';
+import useDetailProjectContainer from '../hooks/useDetailProjectContainer';
 
 const PieChartWithCustomizedLabel = () => {
   const RADIAN = Math.PI / 180;
@@ -87,6 +86,10 @@ const PieChartWithCustomizedLabel = () => {
 };
 
 const Dashboard = () => {
+    const {
+        boardListData
+    } = useDetailProjectContainer();
+    console.log("boardListData in Dashboard:", boardListData);
   const data = [
     {
       name: 'Todo',
@@ -114,57 +117,55 @@ const Dashboard = () => {
     },
   ];
   return (
-    <SidebarLayout pageTitle="Dashboard">
-      <Stack direction={'row'} width={'100%'} height={400} gap={1}>
-        <Box flex={1}>
-          <PieChartWithCustomizedLabel />
-        </Box>
-        <Box flex={1}>
-          <AreaChart
-            style={{
-              width: '100%',
-              maxWidth: '700px',
-              maxHeight: '70vh',
-              aspectRatio: 1.618,
-            }}
-            responsive
-            data={data}
-            margin={{ top: 10, right: 0, left: 0, bottom: 0 }}
-          >
-            <defs>
-              <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
-                <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
-              </linearGradient>
-              <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
-                <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
-              </linearGradient>
-            </defs>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis width="auto" />
-            <Tooltip />
-            <Area
-              type="monotone"
-              dataKey="uv"
-              stroke="#8884d8"
-              fillOpacity={1}
-              fill="url(#colorUv)"
-              isAnimationActive={true}
-            />
-            <Area
-              type="monotone"
-              dataKey="pv"
-              stroke="#82ca9d"
-              fillOpacity={1}
-              fill="url(#colorPv)"
-              isAnimationActive={true}
-            />
-          </AreaChart>
-        </Box>
-      </Stack>
-    </SidebarLayout>
+    <Stack direction={'row'} width={'100%'} height={400} gap={1}>
+      <Box flex={1}>
+        <PieChartWithCustomizedLabel />
+      </Box>
+      <Box flex={1}>
+        <AreaChart
+          style={{
+            width: '100%',
+            maxWidth: '700px',
+            maxHeight: '70vh',
+            aspectRatio: 1.618,
+          }}
+          responsive
+          data={data}
+          margin={{ top: 10, right: 0, left: 0, bottom: 0 }}
+        >
+          <defs>
+            <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
+              <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+            </linearGradient>
+            <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
+              <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
+            </linearGradient>
+          </defs>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis width="auto" />
+          <Tooltip />
+          <Area
+            type="monotone"
+            dataKey="uv"
+            stroke="#8884d8"
+            fillOpacity={1}
+            fill="url(#colorUv)"
+            isAnimationActive={true}
+          />
+          <Area
+            type="monotone"
+            dataKey="pv"
+            stroke="#82ca9d"
+            fillOpacity={1}
+            fill="url(#colorPv)"
+            isAnimationActive={true}
+          />
+        </AreaChart>
+      </Box>
+    </Stack>
   );
 };
 
