@@ -34,7 +34,8 @@ const useModalTaskDetail = () => {
       description: values.description ?? taskDetailData.description,
       position: taskDetailData.position,
     });
-    await fetchTaskDetail(taskId);
+    await modalTaskDetailContext.fetchTaskDetail(taskId);
+
     setLoading(false);
     setEditDescription(false);
     setEditTitle(false);
