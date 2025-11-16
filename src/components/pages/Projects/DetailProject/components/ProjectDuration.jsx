@@ -28,8 +28,10 @@ const ProjectDuration = () => {
         </Typography>
       </Stack>
       <Box>
-        <IconButton onClick={() => detailProjectContext.setIsOpenModalEditProject(true)}>
-            <Edit />
+        <IconButton
+          onClick={() => detailProjectContext.setIsOpenModalEditProject(true)}
+        >
+          <Edit />
         </IconButton>
         {/* <Dropdown
           icon={<Settings />}

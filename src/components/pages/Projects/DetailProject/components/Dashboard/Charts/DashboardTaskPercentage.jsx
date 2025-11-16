@@ -54,10 +54,7 @@ const DashboardTaskPercentage = ({ data }) => {
         isAnimationActive={true}
       >
         {data.map((_, index) => (
-          <Cell
-            key={`cell-${index}`}
-            fill={COLORS[index % COLORS.length]}
-          />
+          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
         ))}
       </Pie>
       <Legend />

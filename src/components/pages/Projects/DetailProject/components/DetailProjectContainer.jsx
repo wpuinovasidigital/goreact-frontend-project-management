@@ -47,5 +47,4 @@ const DetailProjectContainer = () => {
   );
 };
 
-
 export default DetailProjectContainer;

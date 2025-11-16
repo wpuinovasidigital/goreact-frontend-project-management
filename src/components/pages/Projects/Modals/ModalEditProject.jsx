@@ -1,9 +1,9 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, CircularProgress, Stack } from '@mui/material';
 import dayjs from 'dayjs';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useLoaderData, useRevalidator } from 'react-router';
+import { useParams, useRevalidator } from 'react-router';
 import * as Yup from 'yup';
 
 import useDetailProjectContext from '../DetailProject/hooks/useDetailProjectContext';
@@ -22,20 +22,15 @@ const addNewProjectSchema = Yup.object({
 });
 
 const ModalEditProject = () => {
-  const { revalidate } = useRevalidator();
-  const detailProjectData = useLoaderData();
-  const detailProjectContext = useDetailProjectContext();
-
   const [isLoading, setLoading] = useState(false);
+  const [detailProjectData, setDetailProjectData] = useState({});
 
+  const params = useParams();
+  const detailProjectContext = useDetailProjectContext();
   const snackbar = useSnackbar();
+  const {revalidate} = useRevalidator();
 
-  const { control, handleSubmit, reset } = useForm({
-    defaultValues: {
-      title: detailProjectData.title || '',
-      description: detailProjectData.description || '',
-      due_date: dayjs(detailProjectData.due_date) || dayjs(),
-    },
+  const { control, handleSubmit, reset, setValue } = useForm({
     resolver: yupResolver(addNewProjectSchema),
   });
 
@@ -103,6 +98,25 @@ const ModalEditProject = () => {
     detailProjectContext.setIsOpenModalEditProject(false);
     await revalidate();
   };
+
+  useEffect(() => {
+    const fetchDetailProject = async () => {
+      setLoading(true);
+      const response = await services.boards.detail(params.id);
+      const { title, description, due_date } = response.data.data;
+      setValue('title', title);
+      setValue('description', description);
+      setValue('due_date', due_date ? dayjs(due_date) : dayjs());
+
+      setDetailProjectData(response.data.data);
+
+      setLoading(false);
+    };
+
+    if (detailProjectContext.isOpenModalEditProject) {
+      fetchDetailProject();
+    }
+  }, [params, detailProjectContext.isOpenModalEditProject]);
 
   return (
     <Modal
