@@ -1,8 +1,5 @@
-import { colors, Paper, Stack, Typography } from '@mui/material';
-
+import { Stack } from '@mui/material';
 import SidebarLayout from '@/components/layouts/SidebarLayout';
-import { useLoaderData } from 'react-router';
-import useDetailProjectContext from '../hooks/useDetailProjectContext';
 import CreateNewList from './CreateNewList';
 import ListSortableItem from './ListSortableItem';
 import useDetailProjectContainer from '../hooks/useDetailProjectContainer';
@@ -19,6 +16,7 @@ import { DRAG_CARD, DRAG_LIST } from '@/utils/constants';
 import TaskSortableItem from './TaskSortableItem';
 import ProjectInfo from './ProjectInfo';
 import ModalTaskDetail from '../../Modals/ModalTaskDetail';
+import ModalEditProject from '../../Modals/ModalEditProject';
 
 const DetailProjectContainer = () => {
   const {
@@ -112,6 +110,7 @@ const DetailProjectContainer = () => {
         </DndContext>
       </SidebarLayout>
       <ModalTaskDetail />
+      <ModalEditProject />
     </>
   );
 };

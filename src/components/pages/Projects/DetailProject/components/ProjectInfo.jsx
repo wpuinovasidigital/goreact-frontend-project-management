@@ -1,5 +1,6 @@
 import { Stack } from '@mui/material';
 import ProjectMembers from './ProjectMembers';
+import EditProject from './EditProject';
 
 const ProjectInfo = () => {
   return (
@@ -10,6 +11,7 @@ const ProjectInfo = () => {
       mb={2}
     >
       <ProjectMembers />
+      <EditProject />
     </Stack>
   );
 };
