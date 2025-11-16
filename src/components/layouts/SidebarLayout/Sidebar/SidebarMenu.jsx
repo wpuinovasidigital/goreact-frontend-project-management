@@ -12,7 +12,6 @@ const SidebarMenu = () => {
   return (
     <Box sx={{ width: 200, paddingTop: 1 }}>
       <MenuList>
-        
         <MenuItem onClick={() => navigate('/projects')}>
           <ListItemIcon>
             <Book fontSize="small" />
