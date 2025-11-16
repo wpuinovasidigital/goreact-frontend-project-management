@@ -1,5 +1,5 @@
-import { Settings } from '@mui/icons-material';
-import { Box, Stack, Typography } from '@mui/material';
+import { Edit, Settings } from '@mui/icons-material';
+import { Box, IconButton, Stack, Typography } from '@mui/material';
 import { useLoaderData } from 'react-router';
 
 import useDetailProjectContext from '../hooks/useDetailProjectContext';
@@ -28,7 +28,10 @@ const ProjectDuration = () => {
         </Typography>
       </Stack>
       <Box>
-        <Dropdown
+        <IconButton onClick={() => detailProjectContext.setIsOpenModalEditProject(true)}>
+            <Edit />
+        </IconButton>
+        {/* <Dropdown
           icon={<Settings />}
           options={[
             {
@@ -42,7 +45,7 @@ const ProjectDuration = () => {
               value: 'complete_this_project',
             },
           ]}
-        />
+        /> */}
       </Box>
     </Stack>
   );
