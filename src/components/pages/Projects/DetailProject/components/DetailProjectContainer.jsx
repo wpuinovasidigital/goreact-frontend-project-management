@@ -1,53 +1,22 @@
-import { Stack } from '@mui/material';
+import { Tab } from '@mui/material';
 import SidebarLayout from '@/components/layouts/SidebarLayout';
-import CreateNewList from './CreateNewList';
-import ListSortableItem from './ListSortableItem';
 import useDetailProjectContainer from '../hooks/useDetailProjectContainer';
-import {
-  defaultDropAnimationSideEffects,
-  DndContext,
-  DragOverlay,
-} from '@dnd-kit/core';
-import {
-  horizontalListSortingStrategy,
-  SortableContext,
-} from '@dnd-kit/sortable';
-import { DRAG_CARD, DRAG_LIST } from '@/utils/constants';
-import TaskSortableItem from './TaskSortableItem';
-import ProjectInfo from './ProjectInfo';
 import ModalTaskDetail from '../../Modals/ModalTaskDetail';
 import ModalEditProject from '../../Modals/ModalEditProject';
+import { TabContext, TabList } from '@mui/lab';
+import { useState } from 'react';
+import DashboardPanel from './DashboardPanel';
+import ProjectBoardPanel from './ProjectBoardPanel';
 
 const DetailProjectContainer = () => {
-  const {
-    boardListData,
-    detailProjectData,
-    detailProjectContext,
-    activeDragItem,
-    boardListDataMapPublicIds,
-    handleDragCancel,
-    handleDragEnd,
-    handleDragStart,
-    sensors,
-  } = useDetailProjectContainer();
+  const [activeTab, setActiveTab] = useState(2);
 
-  const renderDragOverlay = () => {
-    if (activeDragItem && activeDragItem.type === DRAG_LIST) {
-      return (
-        <ListSortableItem id={activeDragItem.public_id} item={activeDragItem} />
-      );
-    }
-    if (activeDragItem && activeDragItem.type === DRAG_CARD) {
-      return (
-        <TaskSortableItem
-          listId={activeDragItem.list_public_id}
-          id={activeDragItem.public_id}
-          item={activeDragItem}
-        />
-      );
-    }
-    return <></>;
+  const handleChangeTab = (_, newValue) => {
+    setActiveTab(newValue);
   };
+
+  const { detailProjectData, detailProjectContext } =
+    useDetailProjectContainer();
 
   return (
     <>
@@ -63,51 +32,14 @@ const DetailProjectContainer = () => {
           },
         ]}
       >
-        <DndContext
-          onDragStart={handleDragStart}
-          onDragEnd={handleDragEnd}
-          onDragCancel={handleDragCancel}
-          sensors={sensors}
-        >
-          <ProjectInfo />
-          <SortableContext
-            items={boardListDataMapPublicIds}
-            strategy={horizontalListSortingStrategy}
-          >
-            <Stack
-              direction={'row'}
-              justifyContent={'flex-start'}
-              alignItems={'flex-start'}
-              gap={2}
-              pb={5}
-              sx={{
-                overflowX: 'auto',
-              }}
-            >
-              {boardListData?.map((item) => (
-                <ListSortableItem
-                  key={item.public_id}
-                  id={item.public_id}
-                  item={item}
-                />
-              ))}
-              <CreateNewList />
-            </Stack>
-          </SortableContext>
-          <DragOverlay
-            dropAnimation={{
-              sideEffects: defaultDropAnimationSideEffects({
-                styles: {
-                  active: {
-                    opacity: '0.4',
-                  },
-                },
-              }),
-            }}
-          >
-            {renderDragOverlay()}
-          </DragOverlay>
-        </DndContext>
+        <TabContext value={activeTab}>
+          <TabList onChange={handleChangeTab}>
+            <Tab label="Dashboard" value={1} />
+            <Tab label="Project" value={2} />
+          </TabList>
+          <DashboardPanel value={1} />
+          <ProjectBoardPanel value={2} />
+        </TabContext>
       </SidebarLayout>
       <ModalTaskDetail />
       <ModalEditProject />
