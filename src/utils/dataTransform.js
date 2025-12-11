@@ -1,4 +1,5 @@
 export const transformTasksToWorkloadData = (allTasks, listId) => {
+    console.log("listId", listId);
     const activeTasks = allTasks.filter((task) => task.list_internal_id !== listId);
     
     const assigneeCounts = activeTasks.reduce((accumulator, task) => {
