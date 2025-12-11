@@ -5,7 +5,7 @@ import ModalTaskDetail from '../../Modals/ModalTaskDetail';
 import ModalEditProject from '../../Modals/ModalEditProject';
 import { TabContext, TabList } from '@mui/lab';
 import { useState } from 'react';
-import DashboardPanel from './DashboardPanel';
+import Dashboard from './Dashboard';
 import ProjectBoardPanel from './ProjectBoardPanel';
 
 const DetailProjectContainer = () => {
@@ -38,7 +38,7 @@ const DetailProjectContainer = () => {
             <Tab label="Project" value={2} />
           </TabList>
           {
-            activeTab === 1 ? <DashboardPanel value={1} /> : <ProjectBoardPanel value={2} />           
+            activeTab === 1 ? <Dashboard /> : <ProjectBoardPanel value={2} />           
           }
         </TabContext>
       </SidebarLayout>
